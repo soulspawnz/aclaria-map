@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-import { mapAspectRatio } from '../app.js';
+import { mapAspectRatio, createMapController } from '../app.js';
 import { createDocument } from './site-dom-stub.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -133,4 +133,32 @@ test('the stub document itself rejects innerHTML, proving the test harness', () 
   assert.throws(() => {
     node.innerHTML = '<b>x</b>';
   }, /innerHTML/);
+});
+
+
+test('ordinary mouse wheel zooms at the pointer without modifier keys', () => {
+  const handlers = new Map();
+  const viewport = {
+    clientWidth: 800, clientHeight: 600,
+    addEventListener(name, handler) { handlers.set(name, handler); },
+    getBoundingClientRect() { return { left: 100, top: 50 }; },
+  };
+  const stage = { style: { setProperty() {} } };
+  let current;
+  const controller = createMapController({ viewport, stage }, 4 / 3, state => { current = state; });
+  controller.layout();
+  let prevented = false;
+  const event = { deltaY: -100, clientX: 300, clientY: 200,
+    ctrlKey: false, metaKey: false, preventDefault() { prevented = true; } };
+  handlers.get('wheel')(event);
+  assert.equal(prevented, true);
+  assert.ok(controller.getZoom() > 1);
+  assert.ok(Math.abs((200 - current.panX) / (800 * current.zoom) - 0.25) < 1e-10);
+  assert.ok(Math.abs((150 - current.panY) / (600 * current.zoom) - 0.25) < 1e-10);
+  handlers.get('wheel')({ ...event, deltaY: 100 });
+  assert.equal(controller.getZoom(), 1);
+  prevented = false;
+  handlers.get('wheel')({ ...event, deltaY: 0 });
+  assert.equal(prevented, false);
+  assert.equal(controller.getZoom(), 1);
 });

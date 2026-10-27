@@ -1129,7 +1129,7 @@ export function createMapController({ viewport, stage }, aspect, onChange = () =
   }
 
   function onWheel(event) {
-    if (!event.ctrlKey && !event.metaKey) return;
+    if (event.deltaY === 0) return;
     event.preventDefault();
     const rect = viewport.getBoundingClientRect();
     setZoom(
