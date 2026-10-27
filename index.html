@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#12100c">
+  <title>Aclaria map — housing</title>
+  <meta name="description" content="A mobile-friendly Aclaria world map with approximate housing areas and a searchable list of homes from the Grand Homestead Market catalogue.">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#browse">Skip to the home list</a>
+
+  <header class="site-header wrap">
+    <p class="site-header__eyebrow">Aclaria RPG companion</p>
+    <h1>Aclaria map</h1>
+    <p class="site-header__tagline">
+      Housing layer: numbered markers show <strong>approximate cities or regions</strong> from the
+      catalogue — never house addresses.
+    </p>
+  </header>
+
+  <main class="wrap">
+    <div class="layout">
+      <section class="map-panel" aria-labelledby="map-heading">
+        <div class="map-panel__head">
+          <div class="map-panel__title-row">
+            <h2 id="map-heading">Map</h2>
+            <ul class="layer-list" id="layer-list" aria-label="Active map layers"></ul>
+          </div>
+          <p class="map-panel__note" id="map-note">
+            Drag or swipe to pan. Pinch, double-tap or <kbd>+</kbd>/<kbd>−</kbd> to zoom.
+            Keyboard: arrows pan, <kbd>+</kbd>/<kbd>−</kbd> zoom, <kbd>0</kbd> resets.
+          </p>
+        </div>
+
+        <div
+          class="map-viewport"
+          id="map-viewport"
+          tabindex="0"
+          role="group"
+          aria-roledescription="interactive map"
+          aria-label="Aclaria world map"
+          aria-describedby="map-help"
+        >
+          <div class="map-stage" id="map-stage">
+            <img
+              class="map-image"
+              id="map-image"
+              src="./assets/aclaria-map.jpg"
+              alt="Official Aclaria world map. Numbered markers for approximate housing areas are overlaid by this page."
+              width="4096"
+              height="2983"
+              decoding="async"
+              fetchpriority="high"
+            >
+            <div class="map-layer" id="area-layer"></div>
+          </div>
+        </div>
+        <p class="sr-only" id="map-help">
+          Use arrow keys to pan, plus and minus to zoom, and zero or Home to reset. Press Escape to clear
+          the selection. Numbered markers are buttons.
+        </p>
+
+        <div class="map-controls">
+          <div class="map-buttons" role="group" aria-label="Map zoom">
+            <button type="button" id="zoom-out" class="button button--square" aria-label="Zoom out">−</button>
+            <button type="button" id="zoom-in" class="button button--square" aria-label="Zoom in">+</button>
+            <button type="button" id="map-reset" class="button">Reset view</button>
+          </div>
+          <output id="zoom-level" class="zoom-level" aria-hidden="true">1×</output>
+        </div>
+
+        <p class="map-legend">
+          <span class="map-legend__ring" aria-hidden="true"></span>
+          Dashed rings show the broad area the catalogue wording points to. They are not geographic
+          proofs, property boundaries or addresses.
+        </p>
+
+        <p class="notice" id="data-notice" hidden></p>
+        <p class="notice notice--error" id="load-error" hidden></p>
+      </section>
+
+      <aside class="sidebar" aria-label="Home details and browsing">
+        <section class="details" id="details-panel" aria-labelledby="details-heading">
+          <h2 id="details-heading" class="sr-only">Selected place details</h2>
+          <p class="details__empty" id="details-empty">
+            Select a numbered marker or a home from the list to see its details, source and uncertainty
+            notes.
+          </p>
+          <div class="details__content" id="details-content" hidden></div>
+        </section>
+
+        <section class="browse" id="browse" aria-labelledby="browse-heading">
+          <h2 id="browse-heading">Homes</h2>
+          <p class="browse__intro">
+            Listed in the catalogue's original market order. Prices, companion capacities and location
+            wording come from the source; map areas stay approximate.
+          </p>
+
+          <div class="search-field">
+            <label for="search-input">Search homes</label>
+            <div class="search-field__row">
+              <input
+                id="search-input"
+                type="search"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Name, town or catalogue wording"
+              >
+              <button type="button" id="search-clear" class="button button--ghost" hidden>Clear</button>
+            </div>
+          </div>
+
+          <div class="filters" role="group" aria-label="Filter by placement">
+            <button type="button" class="filter" data-placement="all" aria-pressed="true">All homes</button>
+            <button type="button" class="filter" data-placement="placed" aria-pressed="false">On the map</button>
+            <button type="button" class="filter" data-placement="unplaced" aria-pressed="false">Not yet placed</button>
+          </div>
+
+          <p class="list-status" id="list-status" role="status" aria-live="polite"></p>
+          <ul class="house-list" id="house-list" aria-label="Homes in market order"></ul>
+          <p class="empty" id="list-empty" hidden>No homes match this search.</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer wrap">
+    <section aria-labelledby="credits-heading">
+      <h2 id="credits-heading">Credits and sources</h2>
+      <ul>
+        <li>
+          <a href="https://aclariarpg.fandom.com/wiki/File:Aclaria_world_map.jpg" rel="noopener noreferrer">Official Aclaria world map</a>
+          — map artwork, published unchanged.
+        </li>
+        <li>
+          <a href="https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market" rel="noopener noreferrer">Grand Homestead Market catalogue</a>
+          — housing names, prices, companion capacities and location wording.
+        </li>
+      </ul>
+      <p>
+        Area markers are approximate. No exact coordinates, addresses or house positions are claimed.
+        Aclaria RPG and its artwork belong to their respective creators; no additional license is
+        asserted here.
+      </p>
+      <p class="site-footer__meta">Data revision <span id="data-updated">2026-10-27</span>. Static site, no tracking.</p>
+    </section>
+    <noscript>
+      <p class="notice">
+        This map needs JavaScript for markers, search and zoom. The map image above and these sources
+        remain available without it:
+        <a href="https://aclariarpg.fandom.com/wiki/File:Aclaria_world_map.jpg" rel="noopener noreferrer">official map</a>,
+        <a href="https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market" rel="noopener noreferrer">housing catalogue</a>.
+      </p>
+    </noscript>
+  </footer>
+
+  <p class="sr-only" id="app-status" role="status" aria-live="polite"></p>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

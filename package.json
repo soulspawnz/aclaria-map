@@ -1,0 +1,14 @@
+{
+  "name": "aclaria-map",
+  "version": "2026-10-27",
+  "private": true,
+  "type": "module",
+  "description": "Static, mobile-first Aclaria map with an approximate housing layer and room for exploration and dungeon layers.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/site-data.test.mjs tests/site-view.test.mjs tests/site-shell.test.mjs",
+    "serve": "python -m http.server 8080"
+  }
+}
