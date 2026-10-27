@@ -1,0 +1,535 @@
+{
+  "schema": "aclaria-map/2026-10-27",
+  "updated": "2026-10-27",
+  "map": {
+    "image": "assets/aclaria-map.jpg",
+    "width": 4096,
+    "height": 2983,
+    "source": "https://aclariarpg.fandom.com/wiki/File:Aclaria_world_map.jpg"
+  },
+  "layers": [
+    {
+      "id": "housing",
+      "label": "Housing",
+      "enabled": true
+    },
+    {
+      "id": "explorations",
+      "label": "Explorations",
+      "enabled": false
+    },
+    {
+      "id": "dungeons",
+      "label": "Dungeons",
+      "enabled": false
+    }
+  ],
+  "areas": [
+    {
+      "id": "area-1",
+      "number": 1,
+      "name": "Nathorien",
+      "x": 0.327549,
+      "y": 0.606399,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "house",
+        "cottage"
+      ]
+    },
+    {
+      "id": "area-2",
+      "number": 2,
+      "name": "Valkren Hollow",
+      "x": 0.189805,
+      "y": 0.412946,
+      "radiusX": 0.016269,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "brick-house"
+      ]
+    },
+    {
+      "id": "area-3",
+      "number": 3,
+      "name": "Sathara river area",
+      "x": 0.585683,
+      "y": 0.662946,
+      "radiusX": 0.032538,
+      "radiusY": 0.022321,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "river-residence"
+      ]
+    },
+    {
+      "id": "area-4",
+      "number": 4,
+      "name": "Greyharbor",
+      "x": 0.184382,
+      "y": 0.491071,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "portstone-house"
+      ]
+    },
+    {
+      "id": "area-5",
+      "number": 5,
+      "name": "Karnethra",
+      "x": 0.574837,
+      "y": 0.357143,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "lambbot-mansion"
+      ]
+    },
+    {
+      "id": "area-6",
+      "number": 6,
+      "name": "Zorathir",
+      "x": 0.818872,
+      "y": 0.401042,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "robindal-house",
+        "robindal-mansion"
+      ]
+    },
+    {
+      "id": "area-7",
+      "number": 7,
+      "name": "Caerithalor",
+      "x": 0.281996,
+      "y": 0.423363,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "leherd-residence"
+      ]
+    },
+    {
+      "id": "area-8",
+      "number": 8,
+      "name": "South desert islands — broad area",
+      "x": 0.527115,
+      "y": 0.845982,
+      "radiusX": 0.05423,
+      "radiusY": 0.044643,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "hut"
+      ]
+    },
+    {
+      "id": "area-9",
+      "number": 9,
+      "name": "Hearthglem",
+      "x": 0.345987,
+      "y": 0.335565,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "worker-house"
+      ]
+    },
+    {
+      "id": "area-10",
+      "number": 10,
+      "name": "Thalvaris",
+      "x": 0.378525,
+      "y": 0.818452,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "flower-house",
+        "chapney-manor"
+      ]
+    },
+    {
+      "id": "area-11",
+      "number": 11,
+      "name": "Drenvalis",
+      "x": 0.506508,
+      "y": 0.697917,
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "jasmine-palace",
+        "arnsay-house",
+        "elm-mansion"
+      ]
+    },
+    {
+      "id": "area-12",
+      "number": 12,
+      "name": "Osmaric / surrounding desert",
+      "x": 0.761388,
+      "y": 0.552827,
+      "radiusX": 0.037961,
+      "radiusY": 0.033482,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "desert-house",
+        "sunrise-manor"
+      ]
+    },
+    {
+      "id": "area-13",
+      "number": 13,
+      "name": "Ebonveil Thicket",
+      "x": 0.601952,
+      "y": 0.457589,
+      "radiusX": 0.046095,
+      "radiusY": 0.029762,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "beresclair-estate"
+      ]
+    },
+    {
+      "id": "area-14",
+      "number": 14,
+      "name": "Thornmere Thicket river area",
+      "x": 0.270065,
+      "y": 0.528274,
+      "radiusX": 0.037961,
+      "radiusY": 0.026042,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "wood-cabin"
+      ]
+    },
+    {
+      "id": "area-15",
+      "number": 15,
+      "name": "Kharveth Bastion",
+      "x": 0.801518,
+      "y": 0.30506,
+      "radiusX": 0.021692,
+      "radiusY": 0.022321,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "whitmore-manor"
+      ]
+    },
+    {
+      "id": "area-16",
+      "number": 16,
+      "name": "Druskane / approach road",
+      "x": 0.748373,
+      "y": 0.709077,
+      "radiusX": 0.029826,
+      "radiusY": 0.026042,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "padfax-house"
+      ]
+    },
+    {
+      "id": "area-17",
+      "number": 17,
+      "name": "Northern mountains — broad area",
+      "x": 0.498915,
+      "y": 0.114583,
+      "radiusX": 0.070499,
+      "radiusY": 0.026042,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "north-lodge"
+      ]
+    },
+    {
+      "id": "area-18",
+      "number": 18,
+      "name": "Frostbarrow Peaks — broad area",
+      "x": 0.659436,
+      "y": 0.215774,
+      "radiusX": 0.05423,
+      "radiusY": 0.037202,
+      "precision": "approximate-city-or-region",
+      "houseIds": [
+        "igloo"
+      ]
+    }
+  ],
+  "houses": [
+    {
+      "id": "house",
+      "order": 1,
+      "name": "House",
+      "priceGold": 0,
+      "companionCapacity": 1,
+      "location": "Nathorien’s residential quarter.",
+      "areaId": "area-1",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "cottage",
+      "order": 2,
+      "name": "Cottage",
+      "priceGold": 25000,
+      "companionCapacity": 2,
+      "location": "Outskirts of Nathorien.",
+      "areaId": "area-1",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "brick-house",
+      "order": 3,
+      "name": "Brick House",
+      "priceGold": 35000,
+      "companionCapacity": 1,
+      "location": "Valkren Hollow market district.",
+      "areaId": "area-2",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "river-residence",
+      "order": 4,
+      "name": "River Residence",
+      "priceGold": 18000,
+      "companionCapacity": 1,
+      "location": "Near Sathara’s river.",
+      "areaId": "area-3",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "portstone-house",
+      "order": 5,
+      "name": "Portstone House",
+      "priceGold": 45000,
+      "companionCapacity": 2,
+      "location": "Port side of Greyharbor.",
+      "areaId": "area-4",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "lambbot-mansion",
+      "order": 6,
+      "name": "Lambbot Mansion",
+      "priceGold": 55000,
+      "companionCapacity": 2,
+      "location": "Residential alley of Karnethra.",
+      "areaId": "area-5",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "pine-estate",
+      "order": 7,
+      "name": "Pine Estate",
+      "priceGold": 80000,
+      "companionCapacity": 1,
+      "location": "Lake view from Erethune.",
+      "areaId": null,
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "robindal-house",
+      "order": 8,
+      "name": "Robindal House",
+      "priceGold": 30000,
+      "companionCapacity": 1,
+      "location": "Neighborhood of Zorathir.",
+      "areaId": "area-6",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "robindal-mansion",
+      "order": 9,
+      "name": "Robindal Mansion",
+      "priceGold": 80000,
+      "companionCapacity": 2,
+      "location": "Neighborhood of Zorathir.",
+      "areaId": "area-6",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "leherd-residence",
+      "order": 10,
+      "name": "Leherd Residence",
+      "priceGold": 230000,
+      "companionCapacity": 3,
+      "location": "Rich downtown of Caerithalor.",
+      "areaId": "area-7",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "hut",
+      "order": 11,
+      "name": "Hut",
+      "priceGold": 5000,
+      "companionCapacity": 1,
+      "location": "Near the south desert islands.",
+      "areaId": "area-8",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "worker-house",
+      "order": 12,
+      "name": "Worker House",
+      "priceGold": 39000,
+      "companionCapacity": 2,
+      "location": "Industrial quarter of Hearthglem.",
+      "areaId": "area-9",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "flower-house",
+      "order": 13,
+      "name": "Flower house",
+      "priceGold": 60000,
+      "companionCapacity": 2,
+      "location": "Artist district of Thalvaris.",
+      "areaId": "area-10",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "jasmine-palace",
+      "order": 14,
+      "name": "Jasmine Palace",
+      "priceGold": 425000,
+      "companionCapacity": 4,
+      "location": "Reserved noble park of Drenvalis.",
+      "areaId": "area-11",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "chapney-manor",
+      "order": 15,
+      "name": "Chapney Manor",
+      "priceGold": 125000,
+      "companionCapacity": 3,
+      "location": "Crossroad street of the Hero statue in Thalvaris.",
+      "areaId": "area-10",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "desert-house",
+      "order": 16,
+      "name": "Desert House",
+      "priceGold": 50000,
+      "companionCapacity": 1,
+      "location": "Outer walls area of Osmaric.",
+      "areaId": "area-12",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "beresclair-estate",
+      "order": 17,
+      "name": "Beresclair Estate",
+      "priceGold": 85000,
+      "companionCapacity": 2,
+      "location": "Ebonveil Thicket with its own private land.",
+      "areaId": "area-13",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "wood-cabin",
+      "order": 18,
+      "name": "Wood Cabin",
+      "priceGold": 9000,
+      "companionCapacity": 2,
+      "location": "Near Thornmere Thicket river.",
+      "areaId": "area-14",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "arnsay-house",
+      "order": 19,
+      "name": "Arnsay House",
+      "priceGold": 28000,
+      "companionCapacity": 1,
+      "location": "Near Drenvalis main city gate.",
+      "areaId": "area-11",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "whitmore-manor",
+      "order": 20,
+      "name": "Whitmore Manor",
+      "priceGold": 308000,
+      "companionCapacity": 2,
+      "location": "In the Jewelry district of Kharveth Bastion.",
+      "areaId": "area-15",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "padfax-house",
+      "order": 21,
+      "name": "Padfax House",
+      "priceGold": 70000,
+      "companionCapacity": 1,
+      "location": "In the main road to Druskane.",
+      "areaId": "area-16",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "north-lodge",
+      "order": 22,
+      "name": "North lodge",
+      "priceGold": 15000,
+      "companionCapacity": 1,
+      "location": "Far in the north mountains.",
+      "areaId": "area-17",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "lovely-cabin",
+      "order": 23,
+      "name": "Lovely cabin",
+      "priceGold": 37000,
+      "companionCapacity": 1,
+      "location": "Marketplace of Thaldris.",
+      "areaId": null,
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "sunrise-manor",
+      "order": 24,
+      "name": "Sunrise Manor",
+      "priceGold": 411000,
+      "companionCapacity": 4,
+      "location": "Middle in the Desert, at one hour of horse from Osmaric.",
+      "areaId": "area-12",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "igloo",
+      "order": 25,
+      "name": "Igloo",
+      "priceGold": 40000,
+      "companionCapacity": 4,
+      "location": "High up in the Frostbarrow Peaks.",
+      "areaId": "area-18",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    },
+    {
+      "id": "elm-mansion",
+      "order": 26,
+      "name": "Elm Mansion",
+      "priceGold": 53000,
+      "companionCapacity": 1,
+      "location": "City center of Drenvalis.",
+      "areaId": "area-11",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market?oldid=799"
+    }
+  ],
+  "unplacedReason": {
+    "pineEstate": "Erethune has no confidently identified map label.",
+    "lovelyCabin": "Thaldris has no confidently identified map label; it is not assumed to mean Thalvaris."
+  }
+}
