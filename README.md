@@ -2,7 +2,7 @@
 
 A public, mobile-first interactive companion map for **Aclaria RPG** (formerly *Niiiny-RPG*). 
 
-🔗 **Live Map:** [https://soulspawnz.github.io/aclaria-map/](https://soulspawnz.github.io/aclaria-map/) *(pending Task C deployment)*  
+🔗 **Live Map:** [https://soulspawnz.github.io/aclaria-map/](https://soulspawnz.github.io/aclaria-map/) *(deployed with GitHub Pages)*  
 📖 **Wiki Hub:** [Aclaria RPG Fandom Wiki](https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market)
 
 ---
