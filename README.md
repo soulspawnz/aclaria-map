@@ -9,17 +9,18 @@ A public, mobile-first interactive companion map for **Aclaria RPG** (formerly *
 
 ## Scope & Layers
 
-- **Housing (Active):** All 26 estates from the [Grand Homestead Market](https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market) in original catalogue order, mapped across 18 approximate regions/cities with search, filtering, and companion capacity details.
+- **Housing (Active):** All 26 estates from the [Grand Homestead Market](https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market) in original catalogue order, mapped across 19 approximate regions/cities with search, filtering, and companion capacity details.
 - **Explorations & Dungeons (Planned):** The schema (`data/housing.json`) is structured for extensible layers so expedition destinations (where travel times scale by active house proximity and companion perks) and dungeon locations can be toggled on as verified data is integrated.
 
 ## Evidence & Placement
 
 - **Official Artwork:** `assets/aclaria-map.jpg` (`4096×2983`) is the unmodified public world map from the [Aclaria RPG Wiki](https://aclariarpg.fandom.com/wiki/File:Aclaria_world_map.jpg).
 - **Catalogue Data:** House names, Gold prices, companion capacities, and location descriptions come directly from the [Grand Homestead Market catalogue](https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market).
-- **Approximate Regions:** Numbered markers (`1–18`) represent approximate city or regional placements with uncertainty radii, not exact estate coordinates.
-- **Unplaced Estates (2/26):**
-  - **Pine Estate (`Erethune`):** Remains unplaced as *Erethune* has no confidently identified label on the current world map.
-  - **Lovely Cabin (`Thaldris`):** Remains unplaced as *Thaldris* has no confidently identified map label (and is not assumed to be *Thalvaris*).
+- **Approximate Regions:** Numbered markers (`1–19`) represent approximate city or regional placements with uncertainty radii, not exact estate coordinates. Each marker records whether it is a settlement (`approximate-city`) or a broader landform area (`approximate-region`).
+- **Placed with caveats:** **Pine Estate (`Erethune`)** is placed at the *Erethune* settlement label on the northern lake, read directly from the map at about 0.540, 0.171. **Karnethra** sits on the settlement icon rather than the shoreline.
+- **Map label spelling:** The map reads *HEARTHGLEN*; the market card keeps its own wording (*Hearthglem*). The area name follows the map, the house card stays verbatim.
+- **Unplaced Estates (1/26):**
+  - **Lovely Cabin (`Thaldris`):** Remains unplaced. A *Thaldris*-like label appears in the northern snow range, but the reading was not confirmed to the placement standard used for the mapped areas, and it is not assumed to mean *Thalvaris*.
 
 ## Repository Structure
 
