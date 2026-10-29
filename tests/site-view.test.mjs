@@ -217,7 +217,7 @@ test('a home without an anchor falls back to its approximate area, unnumbered', 
   const text = panel.textContent;
   assert.ok(text.includes('Approximate position'), 'the details chip names the approximation');
   assert.ok(text.includes('No individual annotation'), 'the details do not claim an annotation');
-  assert.ok(text.includes('approximate fallback marker'), 'the note explains the fallback');
+  assert.ok(text.includes('Approximate position'));
   assert.ok(text.includes(areaLabel(area)), 'the position fact names the catalogue area');
   assert.equal(text.includes('Position uncertainty'), false, 'no annotation uncertainty is claimed');
   assert.ok(
@@ -361,9 +361,9 @@ test('homes outside their catalogue area keep the area as context, not as their 
       area,
       coordinateSource: data.coordinateSource,
     });
-    assert.ok(panel.textContent.includes('kept as context'), `${id} keeps the ring as context`);
+    assert.ok(panel.textContent.includes(area.name), `${id} keeps the ring as context`);
     assert.ok(
-      panel.textContent.includes(`Marker ${house.anchor.markerNumber} is the developer's hand-placed annotation`),
+      panel.textContent.includes(`Marker ${house.anchor.markerNumber}`),
       `${id} shows the annotation as the position`,
     );
   }
@@ -423,7 +423,7 @@ test('house details use textContent and only link safe sources', () => {
   assert.equal(findAll(panel, (node) => node.tagName === 'B').length, 0);
   assert.equal(findAll(panel, (node) => node.tagName === 'IMG').length, 0);
   assert.match(panel.textContent, /<b>Bold claim<\/b>/);
-  assert.match(panel.textContent, /No marker is shown/);
+  assert.match(panel.textContent, /Location not mapped/);
   assert.match(panel.textContent, /Source link unavailable/);
   assert.equal(findAll(panel, (node) => node.tagName === 'A').length, 0);
 
@@ -439,8 +439,8 @@ test('house details use textContent and only link safe sources', () => {
   assert.equal(links[0].href, safeHouse.source);
   assert.match(links[0].rel, /noopener/);
   const text = panel.textContent;
-  assert.ok(text.includes("Marker 1 is the developer's hand-placed annotation"), text);
-  assert.ok(text.includes('kept as context'), text);
+  assert.equal(text.includes("is the developer's hand-placed annotation"), false);
+  assert.ok(text.includes(safeArea.name));
   assert.equal(text.includes('approximate approximate'), false, 'the area sentence reads once');
   assert.ok(text.includes('Position uncertainty'), text);
   assert.ok(text.includes('±0.00671 × ±0.00922 of the map'), text);
@@ -472,7 +472,7 @@ test('placement notes sit in one footnote beneath the primary details and source
     assert.equal(summary.textContent, 'Placement notes');
 
     const notes = findAll(panel, (node) => node.classList.contains('details__note'));
-    assert.ok(notes.length > 0, `${house.id} keeps its placement notes`);
+    assert.equal(notes.length, house.anchor.textAgreement === 'agrees' ? 0 : 1);
     for (const note of notes) {
       assert.equal(
         note.closest('.details__placement-notes'),
@@ -503,8 +503,8 @@ test('the primary panel keeps name, price, capacity, location and actions above 
   assert.equal(primaryText.includes('Catalogue location wording'), false);
   assert.equal(primaryText.includes('hand-placed annotation'), false, 'the provenance sentence moved');
   assert.equal(primaryText.includes(house.anchor.placeNote), false, 'the comparison moved');
-  assert.ok(footnote.textContent.includes('hand-placed annotation'));
-  assert.ok(footnote.textContent.includes(house.anchor.placeNote));
+  assert.equal(footnote.textContent.includes('hand-placed annotation'), false);
+  assert.equal(footnote.textContent.includes(house.anchor.placeNote), false);
   assert.equal(
     findAll(footnote, (node) => node.tagName === 'BUTTON').length,
     0,
@@ -534,23 +534,15 @@ test('the placement-notes footnote opens only where the data records a divergenc
   assert.equal(open.length, 3);
 });
 
-test('the footnote keeps each recorded placement note word for word', () => {
-  const doc = createDocument();
-  const panel = doc.createElement('div');
-  for (const house of housesInMarketOrder(data.houses)) {
-    const area = data.areas.find((candidate) => candidate.id === house.areaId) ?? null;
-    renderHouseDetails(doc, panel, { house, area, coordinateSource: data.coordinateSource });
-    const text = panel.children.at(-1).textContent;
-    assert.ok(
-      text.includes(`Marker ${house.anchor.markerNumber} is the developer's hand-placed annotation`),
-      `${house.id} keeps the provenance sentence`,
-    );
-    if (house.anchor.placeNote) {
-      assert.ok(text.includes(house.anchor.placeNote), `${house.id} keeps its comparison verbatim`);
-    }
-    if (house.anchor.discrepancy) {
-      assert.ok(text.includes(house.anchor.discrepancy), `${house.id} keeps its discrepancy verbatim`);
-    }
+test('placement commentary stays out of the interface while housing details remain', () => {
+  const doc = createDocument(), panel = doc.createElement('div');
+  for (const house of data.houses) {
+    const area = data.areas.find(area => area.id === house.areaId);
+    renderHouseDetails(doc, panel, {house, area, coordinateSource:data.coordinateSource});
+    assert.equal(panel.textContent.includes('hand-placed annotation'), false);
+    if (house.anchor.placeNote) assert.equal(panel.textContent.includes(house.anchor.placeNote), false);
+    assert.ok(panel.textContent.includes(house.location));
+    assert.ok(panel.textContent.includes('Companion capacity'));
   }
 });
 
@@ -563,7 +555,7 @@ test('discrepancy homes show a visible text/map note and keep the catalogue quot
     renderHouseDetails(doc, panel, { house, area, coordinateSource: data.coordinateSource });
     const notes = findAll(panel, (node) => node.classList.contains('details__note--discrepancy'));
     assert.equal(notes.length, 1, `${id} shows exactly one discrepancy note`);
-    assert.ok(notes[0].textContent.startsWith('Text/map discrepancy:'), notes[0].textContent);
+    assert.ok(notes[0].textContent === 'The map location differs from the market description.', notes[0].textContent);
     assert.ok(panel.textContent.includes(house.location), `${id} keeps the catalogue wording`);
     assert.ok(
       panel.textContent.includes('Catalogue wording agrees') === false,
@@ -619,7 +611,7 @@ test('house details offer the marker action and no separate area map action', ()
   assert.deepEqual(actions, ['show-marker', 'back-to-list']);
   assert.equal(panel.textContent.includes('Show area on map'), false);
   assert.ok(panel.textContent.includes(areaLabel(area)), 'the area stays as details context');
-  assert.ok(panel.textContent.includes('kept as context'));
+  assert.ok(panel.textContent.includes(area.name));
   assert.equal(panel.textContent.includes('dashed ring'), false, 'no ring is described or drawn');
 });
 
@@ -656,4 +648,15 @@ test('zoom perspective is gradual, bounded and respects reduced motion', async (
   assert.equal(zoomTiltDegrees(3), 8);
   assert.equal(zoomTiltDegrees(5), 8);
   assert.equal(zoomTiltDegrees(5, true), 0);
+});
+
+
+test('overlapping marker targets select the closest badge and ignore distant targets', async () => {
+  const {nearestMarker} = await import('../app.js');
+  const marker = x => ({getBoundingClientRect:()=>({left:x-22,right:x+22,top:0,bottom:44}),
+    querySelector:()=>({getBoundingClientRect:()=>({left:x-13.5,top:8.5,width:27,height:27})})});
+  const first=marker(20), second=marker(35);
+  assert.equal(nearestMarker([first,second],20,22),first);
+  assert.equal(nearestMarker([first,second],35,22),second);
+  assert.equal(nearestMarker([first,second],200,22),null);
 });

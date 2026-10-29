@@ -435,11 +435,11 @@ kbd {
 
 .map-viewport.is-immersive .map-stage, .map-viewport.is-zoom-immersive .map-stage {
   transform-origin: 50% 50%;
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
 .map-viewport.is-immersive .house-marker, .map-viewport.is-zoom-immersive .house-marker {
-  transform-style: preserve-3d;
+  transform-style: flat;
 }
 
 /* The badge counter-rotates against the plane so numbers stay upright. The

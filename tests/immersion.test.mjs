@@ -599,3 +599,24 @@ test('normal immersion states contain no explanatory copy', () => {
   assert.equal(IMMERSION_MESSAGES.off, '');
   assert.equal(IMMERSION_MESSAGES.on, '');
 });
+
+
+test('desktop pointer immersion works without sensors and cleans up on disable', async () => {
+  const world=mount({orientationEvent:null});
+  world.win.matchMedia=()=>({matches:true});
+  world.viewport.getBoundingClientRect=()=>({left:0,top:0,width:400,height:300});
+  const result=await world.controller.enable();
+  assert.equal(result.reason,'pointer');
+  assert.equal(world.controller.getState().enabled,true);
+  world.viewport.dispatch('pointermove',{pointerType:'mouse',clientX:400,clientY:0});
+  world.flushFrames();
+  assert.ok(degrees(world.stage.style.getPropertyValue(TILT_VAR_X))>0);
+  assert.ok(degrees(world.stage.style.getPropertyValue(TILT_VAR_Y))>0);
+  world.viewport.dispatch('pointerleave');
+  assert.equal(degrees(world.stage.style.getPropertyValue(TILT_VAR_X)),0);
+  world.controller.disable();
+  world.viewport.dispatch('pointermove',{pointerType:'mouse',clientX:400,clientY:0});
+  assert.equal(world.pendingFrames(),0);
+  world.controller.destroy();
+  assert.equal(world.viewport.countListeners('pointermove'),0);
+});

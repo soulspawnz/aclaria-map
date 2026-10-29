@@ -23,12 +23,12 @@ function attr(tag, name) {
 test('the page loads only local assets and one module script', () => {
   const scripts = [...html.matchAll(/<script\b[^>]*>/gi)].map((match) => match[0]);
   assert.equal(scripts.length, 1);
-  assert.equal(attr(scripts[0], 'src'), './app.js');
+  assert.equal(attr(scripts[0], 'src').split('?')[0], './app.js');
   assert.equal(attr(scripts[0], 'type'), 'module');
 
   const stylesheets = [...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/gi)].map((match) => match[0]);
   assert.equal(stylesheets.length, 1);
-  assert.equal(attr(stylesheets[0], 'href'), './styles.css');
+  assert.equal(attr(stylesheets[0], 'href').split('?')[0], './styles.css');
 
   assert.doesNotMatch(html, /<script[^>]+src="https?:/i);
   assert.doesNotMatch(html, /google-analytics|googletagmanager|plausible|matomo|umami|segment\.io/i);
@@ -212,4 +212,10 @@ test('ordinary mouse wheel zooms at the pointer without modifier keys', () => {
   handlers.get('wheel')({ ...event, deltaY: 0 });
   assert.equal(prevented, false);
   assert.equal(controller.getZoom(), 1);
+});
+
+
+test('perspective does not split image and marker hit-testing into 3D planes', () => {
+  assert.doesNotMatch(css, /transform-style:\s*preserve-3d/);
+  assert.match(css, /transform-style:\s*flat/);
 });

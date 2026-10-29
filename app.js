@@ -609,6 +609,20 @@ export function houseCardWhere(house, area, anchor) {
   return `${area?.name ?? 'On the map'}${short ? ` · ${short}` : ''}`;
 }
 
+// Overlapping 44px targets must select the nearest visible badge, not the last sibling.
+export function nearestMarker(markers, x, y) {
+  let nearest = null;
+  let distance = Infinity;
+  for (const marker of markers) {
+    const target = marker.getBoundingClientRect();
+    if (x < target.left || x > target.right || y < target.top || y > target.bottom) continue;
+    const badge = marker.querySelector('.house-marker__badge')?.getBoundingClientRect() ?? target;
+    const next = Math.hypot(x - badge.left - badge.width / 2, y - badge.top - badge.height / 2);
+    if (next < distance) { nearest = marker; distance = next; }
+  }
+  return nearest;
+}
+
 export function buildHouseItem(doc, house, area, options = {}) {
   const anchor = validAnchor(house.anchor);
   const item = element(doc, 'li', 'house-item');
@@ -716,29 +730,11 @@ export function renderHouseDetails(doc, container, view) {
   );
 
   const notes = [];
-  if (anchor?.placeNote) {
-    notes.push(element(doc, 'p', 'details__note details__note--place', anchor.placeNote));
+  if (anchor && anchor.textAgreement !== 'agrees') {
+    notes.push(element(doc, 'p', 'details__note details__note--discrepancy',
+      'The map location differs from the market description.'));
   }
-  if (anchor?.discrepancy) {
-    notes.push(element(doc, 'p', 'details__note details__note--discrepancy', anchor.discrepancy));
-  }
-
-  const note = element(
-    doc,
-    'p',
-    'details__note',
-    anchor
-      ? `Marker ${anchor.markerNumber} is the developer's hand-placed annotation for this home, not an in-game coordinate, address or property boundary.${
-          area
-            ? ` The catalogue wording names ${area.name}, an ${precisionLabel(
-                area.precision,
-              ).toLowerCase()} kept as context in this list and panel; the map draws only the numbered home markers.`
-            : ''
-        }`
-      : area
-        ? `${areaLabel(area)} is an ${precisionLabel(area.precision).toLowerCase()} from the catalogue wording. The map shows an approximate fallback marker for this home at that area, not its exact position, address or property boundary.`
-        : `No marker is shown for this home. ${reason ?? 'The catalogue wording does not identify a confident map area.'} No coordinates are inferred.`,
-  );
+  if (!anchor && !area) notes.push(element(doc, 'p', 'details__note', 'Location not mapped.'));
 
   const actions = element(doc, 'div', 'details__actions');
   if (anchor) {
@@ -765,15 +761,10 @@ export function renderHouseDetails(doc, container, view) {
     source.textContent = 'Source link unavailable in this record.';
   }
 
-  /* Placement notes are a footnote: the marker-provenance sentence and the
-     annotation-vs-catalogue comparison sit beneath the primary details, actions
-     and source, in a native disclosure. The disclosure opens by itself whenever
-     the data records a divergence, so a real discrepancy is never hidden behind
-     an extra tap while routine placement prose stays out of the way. */
   const placementNotes = element(doc, 'details', 'details__placement-notes');
   placementNotes.open = Boolean(anchor && anchor.textAgreement !== 'agrees');
   const placementBody = element(doc, 'div', 'details__placement-notes__body');
-  placementBody.append(sourceChip, placementFacts, ...notes, note);
+  placementBody.append(sourceChip, placementFacts, ...notes);
   placementNotes.append(
     element(doc, 'summary', 'details__placement-notes__summary', 'Placement notes'),
     placementBody,
@@ -1081,7 +1072,10 @@ function bindStaticEvents() {
   });
 
   ui.areaLayer.addEventListener('click', (event) => {
-    const houseMarker = event.target.closest?.('.house-marker');
+    let houseMarker = event.target.closest?.('.house-marker');
+    if (houseMarker && event.detail !== 0) {
+      houseMarker = nearestMarker(ui.areaLayer.querySelectorAll('.house-marker'), event.clientX, event.clientY) ?? houseMarker;
+    }
     if (houseMarker) selectHouse(houseMarker.dataset.houseId);
   });
 
@@ -1158,7 +1152,7 @@ async function start() {
 async function startImmersion() {
   let immersion;
   try {
-    immersion = await import('./immersion.js');
+    immersion = await import('./immersion.js?v=2026-10-29c');
   } catch {
     ui.immersionToggle.disabled = true;
     ui.immersionStatus.textContent =

@@ -224,6 +224,7 @@ export function createImmersionController({
   let phase = 'off'; // off | requesting | on
   let statusKey = 'off';
   let listening = false;
+  let pointerMode = false;
   let paused = false;
   let neutral = null;
   let pendingRecalibration = true;
@@ -303,6 +304,7 @@ export function createImmersionController({
     statusKey = key;
     resumeOnVisible = false;
     detachSensor();
+    pointerMode = false;
     stopDataTimer();
     resetTilt();
     pendingRecalibration = true;
@@ -360,6 +362,10 @@ export function createImmersionController({
   }
 
   async function arm() {
+    if (pointerMode) {
+      phase = 'on'; statusKey = 'on'; listening = true;
+      render(); return;
+    }
     phase = 'requesting';
     statusKey = 'requesting';
     render();
@@ -379,6 +385,11 @@ export function createImmersionController({
       settleOff('reduced-motion');
       announce();
       return { ok: false, reason: 'reduced-motion' };
+    }
+    if (win?.matchMedia?.('(hover: hover) and (pointer: fine)').matches) {
+      pointerMode = true;
+      await arm();
+      return { ok: true, reason: 'pointer' };
     }
     const Orientation = env.orientationEvent;
     if (!Orientation || typeof win?.addEventListener !== 'function') {
@@ -462,6 +473,22 @@ export function createImmersionController({
     resetTilt();
   }
 
+  function onPointerMove(event) {
+    if (!pointerMode || phase !== 'on' || paused || event.pointerType === 'touch') return;
+    const rect = viewport.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const clamp = value => Math.min(1, Math.max(-1, value));
+    target = {
+      x: -clamp((event.clientY - rect.top) / rect.height * 2 - 1) * limit(),
+      y: clamp((event.clientX - rect.left) / rect.width * 2 - 1) * limit(),
+    };
+    if (!frameId) frameId = env.requestFrame(tick);
+  }
+
+  function onPointerLeave() {
+    if (pointerMode) resetTilt();
+  }
+
   function onPointerDown() {
     pause();
   }
@@ -474,6 +501,8 @@ export function createImmersionController({
   function onToggleClick() {
     void toggle();
   }
+  viewport?.addEventListener?.('pointermove', onPointerMove);
+  viewport?.addEventListener?.('pointerleave', onPointerLeave);
   viewport?.addEventListener?.('pointerdown', onPointerDown);
   win?.addEventListener?.('pointerup', onPointerUp, { passive: true });
   win?.addEventListener?.('pointercancel', onPointerUp, { passive: true });
@@ -494,6 +523,8 @@ export function createImmersionController({
     destroy() {
       destroyed = true;
       button?.removeEventListener?.('click', onToggleClick);
+      viewport?.removeEventListener?.('pointermove', onPointerMove);
+      viewport?.removeEventListener?.('pointerleave', onPointerLeave);
       viewport?.removeEventListener?.('pointerdown', onPointerDown);
       win?.removeEventListener?.('pointerup', onPointerUp);
       win?.removeEventListener?.('pointercancel', onPointerUp);
