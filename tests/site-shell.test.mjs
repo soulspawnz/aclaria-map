@@ -127,6 +127,31 @@ test('the static shell carries the search, filter and no-JavaScript affordances'
   assert.match(html, /id="app-status" role="status" aria-live="polite"/);
 });
 
+test('the shell explains one numbered house-marker layer without inventing placements', () => {
+  assert.ok(html.includes("developer's annotated housing positions"));
+  assert.ok(html.includes('map-legend__dot'), 'the legend shows the house marker layer');
+  assert.equal(html.includes('map-legend__ring'), false, 'no area ring is advertised in the legend');
+  assert.ok(
+    html.includes('the map draws no second set of numbers and no area rings'),
+    'the legend says areas are context only',
+  );
+  assert.ok(html.includes('Developer-annotated housing map (2026-10-28)'), 'credits name the source');
+  assert.ok(html.includes('Data revision <span id="data-updated">2026-10-28</span>'));
+  assert.equal(/Unplaced Estates/.test(html), false, 'the old unplaced section is gone');
+  assert.equal(/approximate housing areas and a searchable list/.test(html), false);
+});
+
+test('home markers keep their hit target and counter-scaling, and no area tier is styled', () => {
+  assert.ok(css.includes('.house-marker {'), 'home markers are styled');
+  assert.ok(css.includes('.house-marker__badge {'));
+  assert.ok(css.includes('.house-marker--approximate'), 'the fallback marker is styled as approximate');
+  assert.equal(css.includes('.marker--area'), false, 'no area marker tier is styled');
+  assert.equal(css.includes('.area-ring'), false, 'no area ring is styled');
+  assert.ok(css.includes('.details__note--discrepancy'), 'discrepancy notes are styled for visibility');
+  assert.ok(css.includes('min-height: 44px'));
+  assert.ok(css.includes('scale(calc(1 / var(--zoom, 1)))'), 'markers counter-scale with zoom');
+});
+
 test('the stub document itself rejects innerHTML, proving the test harness', () => {
   const doc = createDocument();
   const node = doc.createElement('div');

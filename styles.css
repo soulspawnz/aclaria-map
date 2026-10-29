@@ -277,24 +277,10 @@ kbd {
   inset: 0;
 }
 
-/* Broad placement rings: geometry mirrors radiusX / radiusY from the data. */
-.area-ring {
-  position: absolute;
-  z-index: 1;
-  border: calc(1.5px / var(--zoom, 1)) dashed var(--ring);
-  border-radius: 50%;
-  background: rgba(229, 183, 105, 0.035);
-  pointer-events: none;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.area-ring.is-selected {
-  border-style: solid;
-  border-color: var(--accent-strong);
-  background: rgba(229, 183, 105, 0.12);
-}
-
-.marker {
+/* The housing layer is one numbered house-marker tier. Named approximate
+   areas are list/details context only: no rings and no second numbering are
+   drawn on the map. */
+.house-marker {
   position: absolute;
   z-index: 2;
   display: grid;
@@ -310,42 +296,57 @@ kbd {
   transform-origin: 50% 50%;
 }
 
-.marker__badge {
+.house-marker__badge {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  min-width: 27px;
+  height: 27px;
+  padding-inline: 0.3rem;
   border: 2px solid #241708;
-  border-radius: 50%;
+  border-radius: 999px;
   background: var(--accent);
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.6);
   font-family: var(--sans);
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   font-weight: 800;
   line-height: 1;
   transition: background-color 0.12s ease, transform 0.12s ease;
 }
 
-.marker:hover .marker__badge {
+.house-marker:hover .house-marker__badge {
   background: var(--accent-strong);
 }
 
-.marker:focus-visible {
+.house-marker:focus-visible {
   outline: none;
 }
 
-.marker:focus-visible .marker__badge {
+.house-marker:focus-visible .house-marker__badge {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
 
-.marker[aria-pressed="true"] {
+.house-marker[aria-pressed="true"] {
   z-index: 3;
 }
 
-.marker[aria-pressed="true"] .marker__badge {
+.house-marker[aria-pressed="true"] .house-marker__badge {
   background: #fff4d8;
   box-shadow: 0 0 0 3px var(--accent-strong), 0 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Fallback for a home that has no individual annotation yet: the position can
+   only come from its approximate catalogue area, so the badge is hollow, the
+   label reads "~" and the marker carries no number. */
+.house-marker--approximate .house-marker__badge {
+  border-style: dashed;
+  border-color: var(--ring);
+  background: rgba(18, 16, 12, 0.72);
+  color: var(--accent-strong);
+}
+
+.house-marker--approximate:hover .house-marker__badge {
+  background: rgba(30, 26, 18, 0.9);
 }
 
 .map-controls {
@@ -379,13 +380,20 @@ kbd {
   font-size: 0.8rem;
 }
 
-.map-legend__ring {
+.map-legend__dot {
   flex: none;
-  width: 1.1rem;
-  height: 0.8rem;
-  margin-top: 0.2rem;
-  border: 1px dashed var(--ring);
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.1rem;
+  border: 2px solid #241708;
   border-radius: 50%;
+  background: var(--accent);
+  color: #1a1208;
+  font-size: 0.6rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 /* Buttons and notices ----------------------------------------------------- */
@@ -545,6 +553,19 @@ kbd {
   font-size: 0.88rem;
 }
 
+.details__note--place {
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--line-strong);
+}
+
+/* Visible note when the annotation and the catalogue wording name different
+   places. Both records stay as published; nothing is smoothed over. */
+.details__note--discrepancy {
+  padding-left: 0.6rem;
+  border-left: 3px solid #8a5a45;
+  color: #f6d3c4;
+}
+
 .details__actions {
   display: flex;
   flex-wrap: wrap;
@@ -556,32 +577,6 @@ kbd {
   margin: 0;
   font-size: 0.82rem;
   color: var(--muted);
-}
-
-.area-home-list {
-  margin: 0 0 0.85rem;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0.4rem;
-}
-
-.link-button {
-  width: 100%;
-  min-height: 44px;
-  padding: 0.5rem 0.65rem;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: var(--bg-deep);
-  color: var(--text);
-  font: inherit;
-  font-size: 0.92rem;
-  text-align: left;
-  cursor: pointer;
-}
-
-.link-button:hover {
-  border-color: var(--accent);
 }
 
 /* Browse ------------------------------------------------------------------ */
@@ -834,15 +829,12 @@ kbd {
 }
 
 @media (forced-colors: active) {
-  .marker__badge,
+  .house-marker__badge,
+  .map-legend__dot,
   .filter[aria-pressed="true"] {
     forced-color-adjust: none;
     background: Highlight;
     color: HighlightText;
     border: 2px solid ButtonText;
-  }
-
-  .area-ring {
-    border-color: CanvasText;
   }
 }

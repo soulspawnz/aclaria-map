@@ -13,8 +13,13 @@ placements or rewriting the renderer.
 - `data/housing.json` is the only input data. This site treats it as evidence:
   original market order, IDs, prices, capacities, location wording, sources,
   uncertainty and unplaced homes are preserved.
-- Broad-region coordinates are approximate. Markers and dashed rings never
-  claim an exact address, property boundary or house position.
+- Home marker positions come from the developer's annotated housing map, with
+  the annotation's own uncertainty. Named areas stay approximate context in
+  search, the list and the details panel; they are not drawn as a second
+  marker layer.
+  Neither ever claims an in-game coordinate, address or property boundary.
+  Close markers are never displaced to make tapping easier: the list and
+  details panel carry selection, and zoom separates the points.
 - All URLs are relative so the site works at `/aclaria-map/` on GitHub Pages.
 
 ## Files
@@ -36,31 +41,54 @@ worker, not by the site implementation.
 
 ## Data contract
 
-`data/housing.json` (schema `aclaria-map/2026-10-27`):
+`data/housing.json` (schema `aclaria-map/2026-10-28`):
 
 - `map`: `image`, `width`, `height`, official `source` URL.
+- `coordinateSource`: the one declared origin of every home position —
+  `kind: "developer-annotation"`, `label`, `published`, `uncertaintyX`,
+  `uncertaintyY` plus human-readable notes. Every anchor's uncertainty must
+  equal the declared pair, so the layer carries a single honest precision
+  (half a badge width on the annotation).
 - `layers`: `{ id, label, enabled }`. Only `enabled` layers are rendered; the
   current data enables `housing` only.
 - `areas`: `{ id, number, name, x, y, radiusX, radiusY, precision, houseIds }`.
-  `x`/`y` are the centre as fractions of image width/height. `radiusX` is a
-  fraction of image width and `radiusY` a fraction of image height.
-  `precision` is `approximate-city` for a labelled settlement icon or
-  `approximate-region` for a landform/area label, so a region is never
-  presented as an address.
+  Twenty named areas kept as context for the catalogue wording — never a
+  substitute for a home marker and never drawn on the map. `x`/`y` are the
+  centre as fractions of image width/height. `radiusX` is a fraction of image
+  width and `radiusY` a fraction of image height, recorded as the area's
+  approximate extent. `precision` is `approximate-city` for a labelled
+  settlement icon or `approximate-region` for a landform/area label, so a
+  region is never presented as an address. `number` identifies the area in the
+  data and in the details chip; it is not a map marker number.
 - `houses`: `{ id, order, name, priceGold, companionCapacity, location,
-  areaId, source }`. `order` is the original market order. `areaId: null`
-  means the home is unplaced. `priceGold: 0` renders as "Free".
-- `unplacedReason`: recorded reason keyed by the exact house id
-  (`"lovely-cabin"`). The site shows the reason verbatim and never derives
-  coordinates from the location wording.
+  anchor, areaId, source }`. `order` is the original market order;
+  `priceGold: 0` renders as "Free"; `location` is the catalogue wording,
+  verbatim.
+- `anchor`: `{ markerNumber, x, y, uncertaintyX, uncertaintyY, precision,
+  provenance, textAgreement, placeNote?, discrepancy? }`. `x`/`y` are finite
+  normalized fractions of the image. `markerNumber` is the annotation's badge
+  number (unique per dataset; in this data it equals the catalogue order).
+  `precision` is `developer-annotation`. `provenance` records where the
+  coordinates come from and `textAgreement`
+  (`agrees` | `developer-corrected` | `differs`) records how the annotated
+  position relates to the catalogue wording: two separate facts that are never
+  merged into one confidence label. Anything other than `agrees` requires a
+  `discrepancy` note, which the details panel renders verbatim alongside the
+  catalogue quote.
+- `unplacedReason`: recorded reason keyed by the exact house id. The map is
+  empty today, because every home has an anchor, and it stays in the contract
+  for future layers and for any home whose wording cannot be placed. The site
+  shows a reason verbatim and never derives coordinates from the wording.
 - Public `source` values are canonical live wiki article URLs. Revision pins
   (`oldid`) belong in internal verification records only; a regression test
   fails if any shipped page or data URL carries one.
 
 `validateSiteData()` checks ids, market order, prices, capacities, source URLs,
-area references, ring bounds, unplaced reasons and renderer availability. The
-page shows a short non-blocking notice if data fails a check; it does not add
-placements or hide records.
+area references, anchor bounds and finiteness, unique marker numbers, the
+declared-uncertainty match, supported anchor precision, discrepancy notes for
+non-agreeing rows, area extent bounds, unplaced reasons and renderer
+availability. The page shows a short non-blocking notice if data fails a check;
+it does not add placements, repair coordinates or hide records.
 
 ## Coordinates and aspect ratio
 
@@ -68,17 +96,17 @@ The stage keeps the image aspect ratio from `map.width / map.height`
 (≈ 1.3731). `containFit()` computes the largest aspect-correct box inside the
 viewport, so the image is never stretched and letterboxing is centered.
 
+- Home marker centre: the same conversion from `anchor.x` / `anchor.y`, so a
+  marker sits exactly on its annotated point and no position is displaced.
 - Marker centre: `left = x × 100%`, `top = y × 100%` of the stage.
-- Ring box: `left = (x − radiusX) × 100%`, `top = (y − radiusY) × 100%`,
-  `width = 2 × radiusX × 100%`, `height = 2 × radiusY × 100%`.
-- Because width percent refers to image width and height percent to image
-  height, the rendered ellipse matches the recorded image-space radii. The
-  dashed ring is a visualisation of the recorded broad radius, nothing more.
+- Areas are not drawn, so `radiusX` / `radiusY` never produce a ring: they stay
+  in the data as the recorded approximate extent and are validated against the
+  image bounds.
 
 Pan offsets are clamped in physical pixels: when the scaled map is smaller
 than the viewport it is centered; otherwise it cannot leave a gap. Zoom is
-clamped to 100–500%. Marker badges counter-scale with zoom so taps stay
-44 × 44 px; rings and map scale normally.
+clamped to 100–500%. Home markers counter-scale with zoom so taps stay
+44 × 44 px at every zoom level.
 
 ## Rendering and layers
 
@@ -93,6 +121,24 @@ clamped to 100–500%. Marker badges counter-scale with zoom so taps stay
    `textContent` only. Data strings are never interpolated into HTML; source
    links are only created for `http(s)` URLs. The test stub throws on
    `innerHTML`, which keeps that invariant enforced.
+
+The housing renderer draws one tier into the shared `#area-layer` container:
+`renderHouseMarkers()` adds one solid numbered button per catalogue home at its
+anchor, labelled "Marker 18: Wood Cabin; developer-annotated position; Area 14:
+Thornmere Thicket river area (approximate region context); text/map discrepancy
+recorded — see details."
+
+- Only the 26 developer annotations are numbered. Named areas add no buttons,
+  no rings and no numbers, so the catalogue's area numbering cannot compete
+  with the house numbers on the map.
+- A home with no anchor yet falls back to its catalogue area centre with a
+  hollow `~` badge, the class `house-marker--approximate` and an "Approximate
+  position … not an individual annotation" accessible name. That fallback is
+  visual and textual, never a second numbering.
+
+Positions come straight from the data. The renderer never merges, clusters or
+nudges points apart, and `createMapController()` ignores pan/double-click
+gestures that start on the marker tier (`MARKER_SELECTOR`).
 
 Adding a future layer (for example explorations or dungeons) means:
 
@@ -112,10 +158,14 @@ Adding a future layer (for example explorations or dungeons) means:
   (all tokens must match).
 - Placement filters: all, on the map, not yet placed. Filtering never reorders;
   the list always follows the `order` field.
-- Selecting a marker shows the approximate area, its recorded radius and its
-  homes. Selecting a home highlights its area marker and ring.
-- "Show area on map" centers the recorded area at ≥ 200% zoom. "Back to list"
-  returns to the selected card and moves focus there.
+- Selecting a home — from its marker or from the list — opens its details and
+  highlights that marker and card. Other homes listed for the same approximate
+  area get the quieter "related" card state, so the area stays list context.
+- "Show marker on map" centers the home's anchor at ≥ 200% zoom (clamped at the
+  map edges, as pan always is). "Back to list" returns to the selected card and
+  moves focus there.
+- A home with a wording/map difference announces it on selection and shows the
+  recorded note in its details panel.
 - Pointer drag pans; two-pointer pinch zooms; double-tap toggles 100%/250%.
   Ctrl/⌘ + wheel zooms at the cursor. Buttons (`+`, `−`, `Reset view`) are
   44 px targets. Keyboard: arrows pan, `+`/`−` zoom, `0`/`Home` resets,
@@ -127,11 +177,14 @@ Adding a future layer (for example explorations or dungeons) means:
 
 ## Accessibility
 
-- Numbered markers are `<button>` elements with names such as
-  "Area 6: Zorathir. Approximate city or region; 2 homes listed.", and expose
-  `aria-pressed` state.
+- Marker buttons expose `aria-pressed` state. Home buttons read "Marker 18:
+  Wood Cabin; developer-annotated position; Area 14: Thornmere Thicket river
+  area (approximate region context); text/map discrepancy recorded — see
+  details." A fallback button reads "Approximate position for <home>: Area N:
+  <name> (approximate city from the catalogue wording, not an individual
+  annotation)."
 - The map viewport is focusable, labelled, and described by keyboard
-  instructions. Rings are decorative (`aria-hidden`).
+  instructions that name the numbered home discs as its only buttons.
 - Search has a visible label, filters are a labelled group with `aria-pressed`,
   and result/selection changes are announced through a polite live region.
 - Focus-visible outlines, reduced-motion handling, forced-colors handling and
@@ -145,24 +198,39 @@ Adding a future layer (for example explorations or dungeons) means:
 dependencies:
 
 - `tests/site-data.test.mjs`: schema/order/ID/reference validation, 26 homes,
-  19 areas, 1 unplaced home, supported precision values, house-id-keyed
-  unplaced reasons, canonical public wiki links (no `oldid`), verified label
-  corrections, ring bounds, image-space radius shape, layer configuration,
-  negative fixtures.
-- `tests/site-view.test.mjs`: filtering and market order, search normalization,
-  marker/ring percentage geometry, contain-fit/clamp math, safe URL handling,
-  formatted values, safe text rendering of hostile strings, stable source
-  links, accessible marker labels, layer chips, malformed records.
+  20 named areas, 26 developer anchors with unique marker numbers in market
+  order, finite normalized anchor bounds, the declared annotation uncertainty,
+  the Wood Cabin 18 and Padfax House 21 wording/map records, the Hut 11
+  developer correction, Thaldris vs Thalvaris, the retired-but-kept unplaced
+  reason rule, supported precision values, canonical public wiki links (no
+  `oldid`), verified label corrections, area extent bounds, image-space radius
+  shape, layer configuration, negative fixtures.
+- `tests/site-view.test.mjs`: filtering and market order, anchor-first
+  placement filters, search normalization, anchor percentage geometry, exact
+  close-marker coordinates, the single-tier housing layer (26 numbered house
+  markers, no area markers and no rings in the rendered layer), the unnumbered
+  approximate fallback marker, anchor-aware cards and details text,
+  discrepancy notes, contain-fit/clamp math, safe URL handling, formatted
+  values, safe text rendering of hostile strings, stable source links,
+  accessible marker labels, layer chips, malformed records.
 - `tests/site-shell.test.mjs`: local-only assets, relative URLs, no HTML
   injection APIs or runtime imports, credits match data, workflow allowlist and
   least-privilege Pages configuration, touch/keyboard/motion CSS affordances.
 - `tests/site-dom-stub.mjs`: small DOM implementation whose `innerHTML` throws,
   proving the safe-rendering tests bite.
 
-Manual browser checks (Chrome, local HTTP server): desktop 1280 × 900 and
-mobile 375 × 812; marker selection, search, placement filters, details,
-show/back navigation, double-tap, drag, pinch, keyboard pan/zoom/reset, and a
-nested subpath load (`/…/aclaria-map/`).
+Manual browser checks (headless Chromium, local HTTP server serving the site
+under `/aclaria-map/`, 2026-10-28): desktop 1280 × 900 and emulated mobile
+375 × 812 — exactly 26 house markers and **no** area markers or rings in the
+marker container, every marker centre within 1.2 px of its anchor position on
+the stage at both widths, no horizontal overflow, list selection and marker
+selection, "Show marker on map" centring the anchor at 200 % (0.2 px on a
+mid-map home; a home at the map edge stops at the pan clamp instead of
+overshooting), search and filter behaviour, keyboard pan/zoom/reset and Escape,
+live-region announcements, and the narrow-screen details scroll. At 100 % zoom
+on a 375 px-wide viewport 52 pairs of 44 px tap targets overlap (close
+annotations), falling to 10 pairs at 156 %; that is expected and is why the
+list and details panel carry selection instead of displaced coordinates.
 
 ## Deployment
 
@@ -200,8 +268,13 @@ fetch by design; the page explains this.
 
 - The original JPEG is ~6 MB; first load depends on the network. No derived
   image is generated because the artwork must stay unchanged.
-- Placements are broad regions only. The site cannot answer "where exactly is
-  this house?" and does not try.
+- Home markers are hand-placed developer annotations and areas stay broad:
+  the site cannot answer "where exactly is this house?" and does not try.
+- Two homes (Wood Cabin 18, Padfax House 21) record a wording/map difference
+  and keep both records. Resolving either needs the developer's word, not a
+  guess, so no coordinate is derived from the wording.
+- No travel route, travel time or distance scale is derived anywhere in the
+  site or its data.
 - Tests validate logic and the static shell, not real-browser rendering; the
   browser checks above are manual until a browser test dependency is accepted.
 - There is no offline cache, service worker, routing or account feature.

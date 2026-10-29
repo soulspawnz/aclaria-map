@@ -1,6 +1,6 @@
 {
-  "schema": "aclaria-map/2026-10-27",
-  "updated": "2026-10-27",
+  "schema": "aclaria-map/2026-10-28",
+  "updated": "2026-10-28",
   "map": {
     "image": "assets/aclaria-map.jpg",
     "width": 4096,
@@ -277,6 +277,20 @@
       "houseIds": [
         "pine-estate"
       ]
+    },
+    {
+      "id": "area-20",
+      "number": 20,
+      "name": "Thaldris",
+      "radiusX": 0.01898,
+      "radiusY": 0.018601,
+      "precision": "approximate-city",
+      "houseIds": [
+        "lovely-cabin"
+      ],
+      "x": 0.646,
+      "y": 0.19142,
+      "labelNote": "Named context for “Marketplace of Thaldris.”, read at the THALDRIS map label the developer annotated."
     }
   ],
   "houses": [
@@ -288,7 +302,18 @@
       "companionCapacity": 1,
       "location": "Nathorien’s residential quarter.",
       "areaId": "area-1",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 1,
+        "x": 0.31787,
+        "y": 0.61079,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees",
+        "placeNote": "The annotation places this home inside Nathorien's built-up area, beside the castle complex; the catalogue wording, “Nathorien’s residential quarter.”, names the same settlement."
+      }
     },
     {
       "id": "cottage",
@@ -298,7 +323,18 @@
       "companionCapacity": 2,
       "location": "Outskirts of Nathorien.",
       "areaId": "area-1",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 2,
+        "x": 0.33472,
+        "y": 0.62957,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees",
+        "placeNote": "The annotation places this home outside Nathorien, on the hillside south-east of the settlement; the catalogue wording, “Outskirts of Nathorien.”, names the same side."
+      }
     },
     {
       "id": "brick-house",
@@ -308,7 +344,17 @@
       "companionCapacity": 1,
       "location": "Valkren Hollow market district.",
       "areaId": "area-2",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 3,
+        "x": 0.1936,
+        "y": 0.42306,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "river-residence",
@@ -318,7 +364,17 @@
       "companionCapacity": 1,
       "location": "Near Sathara’s river.",
       "areaId": "area-3",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 4,
+        "x": 0.59888,
+        "y": 0.68186,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "portstone-house",
@@ -328,7 +384,17 @@
       "companionCapacity": 2,
       "location": "Port side of Greyharbor.",
       "areaId": "area-4",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 5,
+        "x": 0.17017,
+        "y": 0.50184,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "lambbot-mansion",
@@ -338,7 +404,17 @@
       "companionCapacity": 2,
       "location": "Residential alley of Karnethra.",
       "areaId": "area-5",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 6,
+        "x": 0.59351,
+        "y": 0.36674,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "pine-estate",
@@ -348,7 +424,17 @@
       "companionCapacity": 1,
       "location": "Lake view from Erethune.",
       "areaId": "area-19",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 7,
+        "x": 0.54126,
+        "y": 0.18471,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "robindal-house",
@@ -358,7 +444,17 @@
       "companionCapacity": 1,
       "location": "Neighborhood of Zorathir.",
       "areaId": "area-6",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 8,
+        "x": 0.81396,
+        "y": 0.40194,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "robindal-mansion",
@@ -368,7 +464,17 @@
       "companionCapacity": 2,
       "location": "Neighborhood of Zorathir.",
       "areaId": "area-6",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 9,
+        "x": 0.83667,
+        "y": 0.4063,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "leherd-residence",
@@ -378,7 +484,17 @@
       "companionCapacity": 3,
       "location": "Rich downtown of Caerithalor.",
       "areaId": "area-7",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 10,
+        "x": 0.29175,
+        "y": 0.41837,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "hut",
@@ -388,7 +504,18 @@
       "companionCapacity": 1,
       "location": "Near the south desert islands.",
       "areaId": "area-8",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 11,
+        "x": 0.57886,
+        "y": 0.77439,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "developer-corrected",
+        "discrepancy": "Text/map discrepancy: the developer states the Hut is not on the island on his map, and the annotated marker sits on the southern desert mainland. The catalogue wording, “Near the south desert islands.”, is kept as published, and the annotated position is the one shown."
+      }
     },
     {
       "id": "worker-house",
@@ -398,7 +525,18 @@
       "companionCapacity": 2,
       "location": "Industrial quarter of Hearthglem.",
       "areaId": "area-9",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 12,
+        "x": 0.35059,
+        "y": 0.34361,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees",
+        "placeNote": "The map label reads HEARTHGLEN; the market card keeps its own wording, “Hearthglem”."
+      }
     },
     {
       "id": "flower-house",
@@ -408,7 +546,17 @@
       "companionCapacity": 2,
       "location": "Artist district of Thalvaris.",
       "areaId": "area-10",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 13,
+        "x": 0.39087,
+        "y": 0.82367,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "jasmine-palace",
@@ -418,7 +566,17 @@
       "companionCapacity": 4,
       "location": "Reserved noble park of Drenvalis.",
       "areaId": "area-11",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 14,
+        "x": 0.51709,
+        "y": 0.69796,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "chapney-manor",
@@ -428,7 +586,17 @@
       "companionCapacity": 3,
       "location": "Crossroad street of the Hero statue in Thalvaris.",
       "areaId": "area-10",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 15,
+        "x": 0.37061,
+        "y": 0.83138,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "desert-house",
@@ -438,7 +606,17 @@
       "companionCapacity": 1,
       "location": "Outer walls area of Osmaric.",
       "areaId": "area-12",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 16,
+        "x": 0.76147,
+        "y": 0.5766,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "beresclair-estate",
@@ -448,7 +626,18 @@
       "companionCapacity": 2,
       "location": "Ebonveil Thicket with its own private land.",
       "areaId": "area-13",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 17,
+        "x": 0.68652,
+        "y": 0.45994,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees",
+        "placeNote": "The annotated position sits at the HORNVEIL map label, east of the Ebonveil Thicket area the catalogue wording names. Ebonveil Thicket keeps its own label; no place is renamed."
+      }
     },
     {
       "id": "wood-cabin",
@@ -458,7 +647,18 @@
       "companionCapacity": 2,
       "location": "Near Thornmere Thicket river.",
       "areaId": "area-14",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 18,
+        "x": 0.6001,
+        "y": 0.28461,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "differs",
+        "discrepancy": "Text/map discrepancy: the annotated marker sits in the central-north forest belt, while the catalogue wording says “Near Thornmere Thicket river.” Both records are kept as published. This page does not claim that the home moved or that either record is stale."
+      }
     },
     {
       "id": "arnsay-house",
@@ -468,7 +668,17 @@
       "companionCapacity": 1,
       "location": "Near Drenvalis main city gate.",
       "areaId": "area-11",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 19,
+        "x": 0.49756,
+        "y": 0.70835,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "whitmore-manor",
@@ -478,7 +688,17 @@
       "companionCapacity": 2,
       "location": "In the Jewelry district of Kharveth Bastion.",
       "areaId": "area-15",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 20,
+        "x": 0.8103,
+        "y": 0.31277,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "padfax-house",
@@ -488,7 +708,18 @@
       "companionCapacity": 1,
       "location": "In the main road to Druskane.",
       "areaId": "area-16",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 21,
+        "x": 0.49463,
+        "y": 0.74824,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "differs",
+        "discrepancy": "Text/map discrepancy: the annotated marker sits on the southern desert plain, while the catalogue wording says “In the main road to Druskane.” Both records are kept as published. This page does not claim that the home moved or that either record is stale."
+      }
     },
     {
       "id": "north-lodge",
@@ -498,7 +729,17 @@
       "companionCapacity": 1,
       "location": "Far in the north mountains.",
       "areaId": "area-17",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 22,
+        "x": 0.47363,
+        "y": 0.13409,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "lovely-cabin",
@@ -507,8 +748,19 @@
       "priceGold": 37000,
       "companionCapacity": 1,
       "location": "Marketplace of Thaldris.",
-      "areaId": null,
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "areaId": "area-20",
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 23,
+        "x": 0.646,
+        "y": 0.19142,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees",
+        "placeNote": "Annotated at the THALDRIS map label in the northern snow range, with DURNAVAR and THE FROSTBARROW PEAKS nearby. Thaldris is not Thalvaris, which is a separate label far to the south."
+      }
     },
     {
       "id": "sunrise-manor",
@@ -518,7 +770,17 @@
       "companionCapacity": 4,
       "location": "Middle in the Desert, at one hour of horse from Osmaric.",
       "areaId": "area-12",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 24,
+        "x": 0.75122,
+        "y": 0.62052,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "igloo",
@@ -528,7 +790,17 @@
       "companionCapacity": 4,
       "location": "High up in the Frostbarrow Peaks.",
       "areaId": "area-18",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 25,
+        "x": 0.69653,
+        "y": 0.22528,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     },
     {
       "id": "elm-mansion",
@@ -538,10 +810,31 @@
       "companionCapacity": 1,
       "location": "City center of Drenvalis.",
       "areaId": "area-11",
-      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market"
+      "source": "https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market",
+      "anchor": {
+        "markerNumber": 26,
+        "x": 0.51196,
+        "y": 0.71371,
+        "uncertaintyX": 0.00671,
+        "uncertaintyY": 0.00922,
+        "precision": "developer-annotation",
+        "provenance": "developer-annotation-2026-10-28",
+        "textAgreement": "agrees"
+      }
     }
   ],
-  "unplacedReason": {
-    "lovely-cabin": "Thaldris appears as a map label in the northern snow range, but the reading was not confirmed to the placement standard used for mapped areas, so this home stays unplaced rather than assumed to be Thalvaris."
+  "unplacedReason": {},
+  "coordinateSource": {
+    "kind": "developer-annotation",
+    "label": "Developer-annotated housing map",
+    "published": "2026-10-28",
+    "publishedBy": "the Aclaria RPG developer",
+    "channel": "the official Aclaria RPG Discord",
+    "uncertaintyX": 0.00671,
+    "uncertaintyY": 0.00922,
+    "uncertaintyNote": "Half a badge width on the developer's annotated map: ±0.0067 of image width and ±0.0092 of image height, which is the hand-placement tolerance of the annotation, not a measured house position.",
+    "registrationNote": "The annotated copy is the same 4096 × 2983 artwork as assets/aclaria-map.jpg and is pixel-aligned with it, so its positions transfer 1:1 to the published map.",
+    "numberingNote": "Marker numbers are the annotation's own badge numbers and match the Grand Homestead Market catalogue order (1–26).",
+    "limitNote": "The developer's badges are hand-placed graphics on a stylised map, not in-game coordinates or addresses."
   }
 }
