@@ -288,3 +288,5 @@ fetch by design; the page explains this.
 - Tests validate logic and the static shell, not real-browser rendering; the
   browser checks above are manual until a browser test dependency is accepted.
 - There is no offline cache, service worker, routing or account feature.
+
+Zoom perspective: a smoothstep pitch increases from 0 degrees at fit to 8 degrees at 300% zoom, capped above that. Reduced-motion users retain the flat view. Phone motion remains opt-in and adds at most its existing bounded tilt. Perspective distance scales with stage height to limit distortion; marker badges counter-rotate. No terrain elevation is inferred.

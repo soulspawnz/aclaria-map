@@ -195,6 +195,7 @@ test('ordinary mouse wheel zooms at the pointer without modifier keys', () => {
   const handlers = new Map();
   const viewport = {
     clientWidth: 800, clientHeight: 600,
+    style: { setProperty() {} }, classList: { toggle() {} },
     addEventListener(name, handler) { handlers.set(name, handler); },
     getBoundingClientRect() { return { left: 100, top: 50 }; },
   };

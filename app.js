@@ -1179,6 +1179,12 @@ async function startImmersion() {
 /* Map interaction: pointer pan, pinch, wheel zoom, keyboard alternatives    */
 /* ------------------------------------------------------------------------- */
 
+export function zoomTiltDegrees(zoom, reduced = false) {
+  if (reduced || !Number.isFinite(zoom)) return 0;
+  const t = Math.min(1, Math.max(0, (zoom - 1) / 2));
+  return 8 * t * t * (3 - 2 * t);
+}
+
 export function createMapController({ viewport, stage }, aspect, onChange = () => {}) {
   let base = { width: 0, height: 0 };
   let zoom = ZOOM_MIN;
@@ -1193,12 +1199,18 @@ export function createMapController({ viewport, stage }, aspect, onChange = () =
   const clampZoom = (value) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, value));
   const size = () => ({ width: viewport.clientWidth, height: viewport.clientHeight });
 
+  const motionPreference = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+  motionPreference?.addEventListener?.('change', () => apply());
   function apply() {
+    const tilt = zoomTiltDegrees(zoom, motionPreference?.matches);
+    stage.style.setProperty('--zoom-tilt', `${tilt}deg`);
+    viewport.style.setProperty('--map-perspective', `${Math.max(1400, base.height * zoom * 8)}px`);
+    viewport.classList.toggle('is-zoom-immersive', tilt > 0);
     stage.style.width = `${base.width * zoom}px`;
     stage.style.height = `${base.height * zoom}px`;
     stage.style.transform =
       `translate3d(${panX}px, ${panY}px, 0) ` +
-      'rotateX(var(--immersion-rotate-x, 0deg)) rotateY(var(--immersion-rotate-y, 0deg))';
+      'rotateX(calc(var(--zoom-tilt, 0deg) + var(--immersion-rotate-x, 0deg))) rotateY(var(--immersion-rotate-y, 0deg))';
     stage.style.setProperty('--zoom', String(zoom));
     onChange({ zoom, panX, panY });
   }

@@ -429,24 +429,24 @@ kbd {
   font-size: 0.8rem;
 }
 
-.map-viewport.is-immersive {
-  perspective: 1400px;
+.map-viewport.is-immersive, .map-viewport.is-zoom-immersive {
+  perspective: var(--map-perspective, 1400px);
 }
 
-.map-viewport.is-immersive .map-stage {
+.map-viewport.is-immersive .map-stage, .map-viewport.is-zoom-immersive .map-stage {
   transform-origin: 50% 50%;
   transform-style: preserve-3d;
 }
 
-.map-viewport.is-immersive .house-marker {
+.map-viewport.is-immersive .house-marker, .map-viewport.is-zoom-immersive .house-marker {
   transform-style: preserve-3d;
 }
 
 /* The badge counter-rotates against the plane so numbers stay upright. The
    transform transition is dropped: it would lag every sensor frame. */
-.map-viewport.is-immersive .house-marker__badge {
+.map-viewport.is-immersive .house-marker__badge, .map-viewport.is-zoom-immersive .house-marker__badge {
   transition: background-color 0.12s ease;
-  transform: rotateX(calc(-1 * var(--immersion-rotate-x, 0deg)))
+  transform: rotateX(calc(-1 * (var(--zoom-tilt, 0deg) + var(--immersion-rotate-x, 0deg))))
     rotateY(calc(-1 * var(--immersion-rotate-y, 0deg)));
 }
 

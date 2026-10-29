@@ -647,3 +647,13 @@ test('building one card is independent of sibling rendering', () => {
   assert.match(card.textContent, /Nathorien/);
   assert.match(card.textContent, /developer-annotated position/);
 });
+
+
+test('zoom perspective is gradual, bounded and respects reduced motion', async () => {
+  const { zoomTiltDegrees } = await import('../app.js');
+  assert.equal(zoomTiltDegrees(1), 0);
+  assert.equal(zoomTiltDegrees(2), 4);
+  assert.equal(zoomTiltDegrees(3), 8);
+  assert.equal(zoomTiltDegrees(5), 8);
+  assert.equal(zoomTiltDegrees(5, true), 0);
+});
