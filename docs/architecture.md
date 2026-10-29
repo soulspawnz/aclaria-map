@@ -105,8 +105,11 @@ viewport, so the image is never stretched and letterboxing is centered.
 
 Pan offsets are clamped in physical pixels: when the scaled map is smaller
 than the viewport it is centered; otherwise it cannot leave a gap. Zoom is
-clamped to 100–500%. Home markers counter-scale with zoom so taps stay
-44 × 44 px at every zoom level.
+clamped to 100–500 %. The stage grows by resizing (`stage.style.width/height`
+= base × zoom) and only translates; it is never `scale()`-transformed. Marker
+boxes therefore do not inherit map zoom, and no inverse scale is applied: every
+marker keeps its 44 × 44 px touch target and 27 px badge at every zoom level,
+while the map content underneath scales.
 
 ## Rendering and layers
 
@@ -161,11 +164,16 @@ Adding a future layer (for example explorations or dungeons) means:
 - Selecting a home — from its marker or from the list — opens its details and
   highlights that marker and card. Other homes listed for the same approximate
   area get the quieter "related" card state, so the area stays list context.
+- The details panel keeps the house name, price, capacity, the quoted location
+  (labelled `Location`) and the marker/back actions above a `Placement notes`
+  footnote. The marker-provenance sentence and the annotation-vs-catalogue
+  comparison live in that native disclosure for every home.
 - "Show marker on map" centers the home's anchor at ≥ 200% zoom (clamped at the
   map edges, as pan always is). "Back to list" returns to the selected card and
   moves focus there.
 - A home with a wording/map difference announces it on selection and shows the
-  recorded note in its details panel.
+  recorded note in its details panel. Its placement-notes footnote opens by
+  itself, so a recorded divergence is never hidden behind another tap.
 - Pointer drag pans; two-pointer pinch zooms; double-tap toggles 100%/250%.
   Ctrl/⌘ + wheel zooms at the cursor. Buttons (`+`, `−`, `Reset view`) are
   44 px targets. Keyboard: arrows pan, `+`/`−` zoom, `0`/`Home` resets,
@@ -229,8 +237,10 @@ mid-map home; a home at the map edge stops at the pan clamp instead of
 overshooting), search and filter behaviour, keyboard pan/zoom/reset and Escape,
 live-region announcements, and the narrow-screen details scroll. At 100 % zoom
 on a 375 px-wide viewport 52 pairs of 44 px tap targets overlap (close
-annotations), falling to 10 pairs at 156 %; that is expected and is why the
-list and details panel carry selection instead of displaced coordinates.
+annotations); re-measured 2026-10-29 with constant-size markers the count falls
+to 36, 26 and 7 pairs at 125 %, 156 % and 500 % (desktop 15 → 1) as the map
+spreads out beneath them. That overlap at 100 % is expected and is why the list
+and details panel carry selection instead of displaced coordinates.
 
 ## Deployment
 

@@ -8,7 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test tests/site-data.test.mjs tests/site-view.test.mjs tests/site-shell.test.mjs",
+    "test": "node --test tests/site-data.test.mjs tests/site-view.test.mjs tests/site-shell.test.mjs tests/immersion.test.mjs",
     "serve": "python -m http.server 8080"
   }
 }

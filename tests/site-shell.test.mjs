@@ -77,7 +77,7 @@ test('the app has no runtime imports or third-party endpoints', () => {
   assert.equal(packageJson.type, 'module');
   assert.equal(
     packageJson.scripts.test,
-    'node --test tests/site-data.test.mjs tests/site-view.test.mjs tests/site-shell.test.mjs',
+    'node --test tests/site-data.test.mjs tests/site-view.test.mjs tests/site-shell.test.mjs tests/immersion.test.mjs',
   );
 });
 
@@ -86,7 +86,7 @@ test('the Pages workflow publishes only the allowlisted site files', () => {
   assert.doesNotMatch(workflow, /\$\{\{\s*secrets\./);
   assert.doesNotMatch(workflow, /path:\s*['"]?\.['"]?\s*$/m);
   assert.doesNotMatch(workflow, /cp\s+-r|rsync|upload entire repository/i);
-  for (const file of ['index.html', 'styles.css', 'app.js', 'data/housing.json', 'assets/aclaria-map.jpg']) {
+  for (const file of ['index.html', 'styles.css', 'app.js', 'immersion.js', 'data/housing.json', 'assets/aclaria-map.jpg']) {
     assert.ok(workflow.includes(file), `${file} is staged`);
   }
   assert.match(workflow, /path:\s*_site/);
@@ -141,7 +141,7 @@ test('the shell explains one numbered house-marker layer without inventing place
   assert.equal(/approximate housing areas and a searchable list/.test(html), false);
 });
 
-test('home markers keep their hit target and counter-scaling, and no area tier is styled', () => {
+test('home markers keep their hit target and no area tier is styled', () => {
   assert.ok(css.includes('.house-marker {'), 'home markers are styled');
   assert.ok(css.includes('.house-marker__badge {'));
   assert.ok(css.includes('.house-marker--approximate'), 'the fallback marker is styled as approximate');
@@ -149,7 +149,37 @@ test('home markers keep their hit target and counter-scaling, and no area tier i
   assert.equal(css.includes('.area-ring'), false, 'no area ring is styled');
   assert.ok(css.includes('.details__note--discrepancy'), 'discrepancy notes are styled for visibility');
   assert.ok(css.includes('min-height: 44px'));
-  assert.ok(css.includes('scale(calc(1 / var(--zoom, 1)))'), 'markers counter-scale with zoom');
+});
+
+test('house markers keep a constant 44 px target instead of inverse-scaling', () => {
+  const rule = css.match(/\.house-marker\s*\{[^}]*\}/)?.[0] ?? '';
+  assert.match(rule, /width:\s*44px/);
+  assert.match(rule, /height:\s*44px/);
+  assert.equal(
+    /scale\(/.test(rule),
+    false,
+    'the marker must not compensate for a stage transform the stage does not apply',
+  );
+  assert.equal(
+    css.includes('scale(calc(1 / var(--zoom'),
+    false,
+    'the stage is resized, not scale()-transformed, so no inverse zoom compensation may remain',
+  );
+});
+
+test('placement notes are a compact footnote disclosure with a phone-sized target', () => {
+  assert.ok(css.includes('.details__placement-notes {'), 'the footnote container is styled');
+  assert.ok(css.includes('.details__placement-notes__summary {'), 'the summary row is styled');
+  assert.match(
+    css,
+    /\.details__placement-notes__summary \{[^}]*min-height: 44px/,
+    'the summary keeps a 44 px tap target',
+  );
+  assert.ok(css.includes('.details__placement-notes__body .details__note'));
+  assert.ok(
+    app.includes("'details__placement-notes__summary', 'Placement notes'"),
+    'the disclosure is labelled Placement notes',
+  );
 });
 
 test('the stub document itself rejects innerHTML, proving the test harness', () => {

@@ -72,6 +72,19 @@
           <output id="zoom-level" class="zoom-level" aria-hidden="true">1×</output>
         </div>
 
+        <div class="immersion" role="group" aria-label="Immersion mode">
+          <button
+            type="button"
+            id="immersion-toggle"
+            class="button button--ghost immersion__toggle"
+            aria-pressed="false"
+            aria-describedby="immersion-status"
+          >Immersion mode: Off</button>
+          <p class="immersion__status" id="immersion-status" role="status" aria-live="polite">
+            Optional tilt. Off by default, and the map works the same without it.
+          </p>
+        </div>
+
         <p class="map-legend">
           <span class="map-legend__dot" aria-hidden="true">1</span>
           Solid numbered discs are the developer's annotated housing positions for all 26 catalogue

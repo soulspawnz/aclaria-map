@@ -220,6 +220,10 @@ test('a home without an anchor falls back to its approximate area, unnumbered', 
   assert.ok(text.includes('approximate fallback marker'), 'the note explains the fallback');
   assert.ok(text.includes(areaLabel(area)), 'the position fact names the catalogue area');
   assert.equal(text.includes('Position uncertainty'), false, 'no annotation uncertainty is claimed');
+  assert.ok(
+    panel.children.at(-1).classList.contains('details__placement-notes'),
+    'the fallback explanation stays in the footnote for an unannotated home',
+  );
 });
 
 test('house markers render one accessible button per catalogue home at its anchor', () => {
@@ -446,6 +450,108 @@ test('house details use textContent and only link safe sources', () => {
     ['show-marker', 'back-to-list'],
     'the panel offers no separate area-map action',
   );
+});
+
+test('placement notes sit in one footnote beneath the primary details and source', () => {
+  const doc = createDocument();
+  const panel = doc.createElement('div');
+  for (const house of housesInMarketOrder(data.houses)) {
+    const area = data.areas.find((candidate) => candidate.id === house.areaId) ?? null;
+    renderHouseDetails(doc, panel, { house, area, coordinateSource: data.coordinateSource });
+
+    assert.deepEqual(
+      panel.children.map((node) => node.tagName),
+      ['P', 'H2', 'DIV', 'DL', 'P', 'BLOCKQUOTE', 'DIV', 'P', 'DETAILS'],
+      `${house.id} keeps the block order: details, actions, source, then the footnote`,
+    );
+    const footnote = panel.children.at(-1);
+    assert.ok(footnote.classList.contains('details__placement-notes'), house.id);
+    assert.equal(footnote.children.length, 2, `${house.id} holds one summary and one body`);
+    const summary = footnote.children[0];
+    assert.equal(summary.tagName, 'SUMMARY');
+    assert.equal(summary.textContent, 'Placement notes');
+
+    const notes = findAll(panel, (node) => node.classList.contains('details__note'));
+    assert.ok(notes.length > 0, `${house.id} keeps its placement notes`);
+    for (const note of notes) {
+      assert.equal(
+        note.closest('.details__placement-notes'),
+        footnote,
+        `${house.id} keeps every placement note inside the footnote`,
+      );
+    }
+  }
+});
+
+test('the primary panel keeps name, price, capacity, location and actions above the footnote', () => {
+  const doc = createDocument();
+  const panel = doc.createElement('div');
+  const house = data.houses.find((candidate) => candidate.id === 'house');
+  const area = data.areas.find((candidate) => candidate.id === house.areaId);
+  renderHouseDetails(doc, panel, { house, area, coordinateSource: data.coordinateSource });
+
+  const footnote = panel.children.at(-1);
+  const primary = panel.children.slice(0, -1);
+  const primaryText = primary.map((node) => node.textContent).join('');
+
+  assert.equal(primary[0].textContent, 'Selected home');
+  assert.equal(primary[1].textContent, house.name, 'the house name stays the heading');
+  assert.ok(primaryText.includes('Free'), 'the price stays primary');
+  assert.ok(primaryText.includes('1 companion'), 'the capacity stays primary');
+  assert.equal(primary[4].textContent, 'Location', 'the location label reads Location');
+  assert.equal(primary[5].textContent, `“${house.location}”`, 'the quoted location is unchanged');
+  assert.equal(primaryText.includes('Catalogue location wording'), false);
+  assert.equal(primaryText.includes('hand-placed annotation'), false, 'the provenance sentence moved');
+  assert.equal(primaryText.includes(house.anchor.placeNote), false, 'the comparison moved');
+  assert.ok(footnote.textContent.includes('hand-placed annotation'));
+  assert.ok(footnote.textContent.includes(house.anchor.placeNote));
+  assert.equal(
+    findAll(footnote, (node) => node.tagName === 'BUTTON').length,
+    0,
+    'the actions stay above the footnote',
+  );
+});
+
+test('the placement-notes footnote opens only where the data records a divergence', () => {
+  const doc = createDocument();
+  const panel = doc.createElement('div');
+  const open = [];
+  for (const house of housesInMarketOrder(data.houses)) {
+    const area = data.areas.find((candidate) => candidate.id === house.areaId) ?? null;
+    renderHouseDetails(doc, panel, { house, area, coordinateSource: data.coordinateSource });
+    const footnote = panel.children.at(-1);
+    const diverges = house.anchor.textAgreement !== 'agrees';
+    assert.equal(Boolean(footnote.open), diverges, `${house.id} disclosure state follows its record`);
+    if (diverges) open.push(house.id);
+  }
+  assert.deepEqual(
+    open,
+    housesInMarketOrder(data.houses)
+      .filter((house) => house.anchor.textAgreement !== 'agrees')
+      .map((house) => house.id),
+    'every recorded divergence is explained without another tap',
+  );
+  assert.equal(open.length, 3);
+});
+
+test('the footnote keeps each recorded placement note word for word', () => {
+  const doc = createDocument();
+  const panel = doc.createElement('div');
+  for (const house of housesInMarketOrder(data.houses)) {
+    const area = data.areas.find((candidate) => candidate.id === house.areaId) ?? null;
+    renderHouseDetails(doc, panel, { house, area, coordinateSource: data.coordinateSource });
+    const text = panel.children.at(-1).textContent;
+    assert.ok(
+      text.includes(`Marker ${house.anchor.markerNumber} is the developer's hand-placed annotation`),
+      `${house.id} keeps the provenance sentence`,
+    );
+    if (house.anchor.placeNote) {
+      assert.ok(text.includes(house.anchor.placeNote), `${house.id} keeps its comparison verbatim`);
+    }
+    if (house.anchor.discrepancy) {
+      assert.ok(text.includes(house.anchor.discrepancy), `${house.id} keeps its discrepancy verbatim`);
+    }
+  }
 });
 
 test('discrepancy homes show a visible text/map note and keep the catalogue quote', () => {

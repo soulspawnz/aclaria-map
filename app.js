@@ -708,13 +708,13 @@ export function renderHouseDetails(doc, container, view) {
     );
   }
 
+  const caption = element(doc, 'p', 'catalogue-quote__caption', 'Location');
   const quote = element(
     doc,
     'blockquote',
     'catalogue-quote',
-    house.location ? `“${house.location}”` : 'No catalogue location wording recorded.',
+    house.location ? `“${house.location}”` : 'No location wording recorded.',
   );
-  const caption = element(doc, 'p', 'catalogue-quote__caption', 'Catalogue location wording');
 
   const notes = [];
   if (anchor?.placeNote) {
@@ -766,7 +766,21 @@ export function renderHouseDetails(doc, container, view) {
     source.textContent = 'Source link unavailable in this record.';
   }
 
-  container.append(eyebrow, title, chips, facts, quote, caption, note, ...notes, actions, source);
+  /* Placement notes are a footnote: the marker-provenance sentence and the
+     annotation-vs-catalogue comparison sit beneath the primary details, actions
+     and source, in a native disclosure. The disclosure opens by itself whenever
+     the data records a divergence, so a real discrepancy is never hidden behind
+     an extra tap while routine placement prose stays out of the way. */
+  const placementNotes = element(doc, 'details', 'details__placement-notes');
+  placementNotes.open = Boolean(anchor && anchor.textAgreement !== 'agrees');
+  const placementBody = element(doc, 'div', 'details__placement-notes__body');
+  placementBody.append(...notes, note);
+  placementNotes.append(
+    element(doc, 'summary', 'details__placement-notes__summary', 'Placement notes'),
+    placementBody,
+  );
+
+  container.append(eyebrow, title, chips, facts, caption, quote, actions, source, placementNotes);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -797,6 +811,8 @@ function collectUi() {
     zoomOut: 'zoom-out',
     mapReset: 'map-reset',
     zoomLevel: 'zoom-level',
+    immersionToggle: 'immersion-toggle',
+    immersionStatus: 'immersion-status',
     dataNotice: 'data-notice',
     loadError: 'load-error',
     detailsPanel: 'details-panel',
@@ -1131,6 +1147,32 @@ async function start() {
   showEmptyDetails();
   applyFilters();
   updateFilterButtons();
+
+  await startImmersion();
+}
+
+/**
+ * Immersion mode is optional and loaded on demand. If the module is missing
+ * (an older deployed build), the toggle says so plainly and the flat map keeps
+ * working; the controller itself handles unsupported/denied/no-data the same way.
+ */
+async function startImmersion() {
+  let immersion;
+  try {
+    immersion = await import('./immersion.js');
+  } catch {
+    ui.immersionToggle.disabled = true;
+    ui.immersionStatus.textContent =
+      'Immersion mode could not be loaded in this build. The map stays flat.';
+    return;
+  }
+  immersion.createImmersionController({
+    stage: ui.mapStage,
+    viewport: ui.mapViewport,
+    button: ui.immersionToggle,
+    status: ui.immersionStatus,
+    getExtent: () => ({ width: ui.mapStage.offsetWidth, height: ui.mapStage.offsetHeight }),
+  });
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1154,7 +1196,9 @@ export function createMapController({ viewport, stage }, aspect, onChange = () =
   function apply() {
     stage.style.width = `${base.width * zoom}px`;
     stage.style.height = `${base.height * zoom}px`;
-    stage.style.transform = `translate3d(${panX}px, ${panY}px, 0)`;
+    stage.style.transform =
+      `translate3d(${panX}px, ${panY}px, 0) ` +
+      'rotateX(var(--immersion-rotate-x, 0deg)) rotateY(var(--immersion-rotate-y, 0deg))';
     stage.style.setProperty('--zoom', String(zoom));
     onChange({ zoom, panX, panY });
   }

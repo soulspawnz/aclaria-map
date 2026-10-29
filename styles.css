@@ -292,7 +292,10 @@ kbd {
   background: none;
   color: #1a1208;
   cursor: pointer;
-  transform: translate(-50%, -50%) scale(calc(1 / var(--zoom, 1)));
+  /* The stage grows by resizing its width/height, so marker boxes inherit no
+     map zoom and apply no counter-scaling: the 44 px target and the 27 px badge
+     stay constant while the map content underneath grows. */
+  transform: translate(-50%, -50%);
   transform-origin: 50% 50%;
 }
 
@@ -394,6 +397,57 @@ kbd {
   font-size: 0.6rem;
   font-weight: 800;
   line-height: 1;
+}
+
+/* Immersion mode ---------------------------------------------------------- */
+
+/* Optional, off by default. The tilt is a presentation transform on the
+   existing pan/zoom stage, so marker geometry, the 44 px hit target and the
+   artwork stay untouched; only the plane leans by <= 3 degrees. */
+.immersion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  align-items: center;
+  margin-top: 0.6rem;
+}
+
+.immersion__toggle {
+  flex: none;
+  min-height: 44px;
+}
+
+.immersion__toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.immersion__status {
+  flex: 1 1 16rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.map-viewport.is-immersive {
+  perspective: 1400px;
+}
+
+.map-viewport.is-immersive .map-stage {
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+.map-viewport.is-immersive .house-marker {
+  transform-style: preserve-3d;
+}
+
+/* The badge counter-rotates against the plane so numbers stay upright. The
+   transform transition is dropped: it would lag every sensor frame. */
+.map-viewport.is-immersive .house-marker__badge {
+  transition: background-color 0.12s ease;
+  transform: rotateX(calc(-1 * var(--immersion-rotate-x, 0deg)))
+    rotateY(calc(-1 * var(--immersion-rotate-y, 0deg)));
 }
 
 /* Buttons and notices ----------------------------------------------------- */
@@ -541,7 +595,7 @@ kbd {
 }
 
 .catalogue-quote__caption {
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.3rem;
   color: var(--muted);
   font-size: 0.74rem;
   letter-spacing: 0.05em;
@@ -577,6 +631,48 @@ kbd {
   margin: 0;
   font-size: 0.82rem;
   color: var(--muted);
+}
+
+/* Placement notes: the marker provenance and the annotation-vs-catalogue
+   comparison as a footnote beneath the primary details, actions and source.
+   A native disclosure keeps the panel short on phones; the summary row is a
+   44 px tap target and the body only appears when it is opened. */
+.details__placement-notes {
+  margin-top: 0.9rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--line);
+}
+
+/* Keep summary's default list-item box: a flex or grid display removes the
+   native disclosure marker in Chromium and Firefox. Padding carries the row to
+   a 44 px touch target instead. */
+.details__placement-notes__summary {
+  min-height: 44px;
+  padding: 0.72rem 0;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.details__placement-notes__summary:hover,
+.details__placement-notes__summary:focus-visible {
+  color: var(--text);
+}
+
+/* The body keeps the default display so a closed <details> can hide it; only
+   its own margins position the notes. */
+.details__placement-notes__body {
+  padding: 0.1rem 0 0.15rem;
+}
+
+.details__placement-notes__body .details__note {
+  margin: 0;
+}
+
+.details__placement-notes__body .details__note + .details__note {
+  margin-top: 0.55rem;
 }
 
 /* Browse ------------------------------------------------------------------ */
