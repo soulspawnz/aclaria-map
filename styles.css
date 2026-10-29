@@ -934,3 +934,5 @@ kbd {
     border: 2px solid ButtonText;
   }
 }
+
+.immersion__status:empty { display: none; }

@@ -35,17 +35,15 @@ export const TILT_VAR_X = '--immersion-rotate-x';
 export const TILT_VAR_Y = '--immersion-rotate-y';
 
 export const IMMERSION_MESSAGES = Object.freeze({
-  off: 'Zoom in for a gentle angled view. Optional phone motion is off by default.',
-  requesting: 'Waiting for the motion permission prompt…',
-  on: 'On, calibrated to how you are holding the phone. Tilt stays within 3° and pauses while you pan.',
-  'reduced-motion':
-    'Your system asks for reduced motion, so Immersion mode stays off. The flat map is unchanged.',
-  unsupported:
-    'This browser or device does not report motion data (desktops usually do not). The zoom view still works.',
-  denied: 'Motion access was blocked, so the zoom view still works. Press the button again to retry.',
-  'no-data': 'No motion readings arrived, so the zoom view still works. Retry, or leave it off.',
-  unavailable: 'Immersion mode could not be loaded in this build. The zoom view still works.',
-  suspended: 'Paused while the page was hidden. The map stays flat until you turn it back on.',
+  off: '',
+  requesting: 'Waiting for permission…',
+  on: '',
+  'reduced-motion': 'Unavailable with reduced motion enabled.',
+  unsupported: 'Unavailable on this device.',
+  denied: 'Permission denied. You can try again.',
+  'no-data': 'Unavailable. You can try again.',
+  unavailable: 'Temporarily unavailable.',
+  suspended: 'Paused.',
 });
 
 /* ------------------------------------------------------------------------- */
@@ -257,7 +255,7 @@ export function createImmersionController({
   function render() {
     const enabled = phase === 'on';
     if (button) {
-      button.textContent = enabled ? 'Phone tilt: On' : 'Phone tilt: Off';
+      button.textContent = enabled ? 'Immersion mode: On' : 'Immersion mode: Off';
       button.setAttribute('aria-pressed', enabled ? 'true' : 'false');
       button.classList.toggle('is-on', enabled);
       button.classList.toggle('is-busy', phase === 'requesting');

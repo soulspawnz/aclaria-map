@@ -1163,7 +1163,7 @@ async function startImmersion() {
   } catch {
     ui.immersionToggle.disabled = true;
     ui.immersionStatus.textContent =
-      'Immersion mode could not be loaded in this build. The map stays flat.';
+      'Immersion mode is temporarily unavailable.';
     return;
   }
   immersion.createImmersionController({

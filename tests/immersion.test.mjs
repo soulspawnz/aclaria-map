@@ -310,7 +310,7 @@ test('desktop-style unsupported devices keep the flat map and say so', async () 
   const state = world.controller.getState();
   assert.equal(state.phase, 'off');
   assert.equal(state.statusKey, 'unsupported');
-  assert.equal(world.button.textContent, 'Phone tilt: Off');
+  assert.equal(world.button.textContent, 'Immersion mode: Off');
   assert.equal(world.button.getAttribute('aria-pressed'), 'false');
   assert.equal(world.status.textContent, IMMERSION_MESSAGES.unsupported);
   assert.equal(world.win.count('deviceorientation'), 0);
@@ -324,7 +324,7 @@ test('a denied permission prompt never pretends to be enabled', async () => {
   assert.equal(result.reason, 'denied');
   assert.equal(world.permissionCalls, 1);
   assert.equal(world.controller.getState().statusKey, 'denied');
-  assert.equal(world.button.textContent, 'Phone tilt: Off');
+  assert.equal(world.button.textContent, 'Immersion mode: Off');
   assert.equal(world.button.getAttribute('aria-pressed'), 'false');
   assert.equal(world.win.count('deviceorientation'), 0);
   // a denied attempt is not silently retried when the page becomes visible again
@@ -349,7 +349,7 @@ test('reduced motion keeps Immersion mode off and explains why', async () => {
   assert.equal(result.ok, false);
   assert.equal(result.reason, 'reduced-motion');
   assert.equal(world.controller.getState().statusKey, 'reduced-motion');
-  assert.equal(world.button.textContent, 'Phone tilt: Off');
+  assert.equal(world.button.textContent, 'Immersion mode: Off');
   assert.equal(world.permissionCalls, 0, 'no permission prompt under reduced motion');
   assert.equal(world.win.count('deviceorientation'), 0);
   assert.match(world.status.textContent, /reduced motion/i);
@@ -368,7 +368,7 @@ test('no readings at all falls back to the flat map instead of faking a tilt', a
   const state = world.controller.getState();
   assert.equal(state.phase, 'off');
   assert.equal(state.statusKey, 'no-data');
-  assert.equal(world.button.textContent, 'Phone tilt: Off');
+  assert.equal(world.button.textContent, 'Immersion mode: Off');
   assert.equal(world.win.count('deviceorientation'), 0);
   assert.equal(world.stage.style.getPropertyValue(TILT_VAR_X), '0.00deg');
 });
@@ -387,7 +387,7 @@ test('granted permission calibrates neutral, tilts smoothly and then idles', asy
   let state = world.controller.getState();
   assert.equal(state.phase, 'on');
   assert.equal(state.neutral.pitch, 40);
-  assert.equal(world.button.textContent, 'Phone tilt: On');
+  assert.equal(world.button.textContent, 'Immersion mode: On');
   assert.equal(world.button.getAttribute('aria-pressed'), 'true');
   assert.equal(world.viewport.classList.contains('is-immersive'), true);
   assert.equal(world.stage.style.getPropertyValue(TILT_VAR_X), '0.00deg');
@@ -490,7 +490,7 @@ test('turning Immersion mode off restores the neutral transform and listeners', 
   assert.equal(world.stage.style.getPropertyValue(TILT_VAR_X), '0.00deg');
   assert.equal(world.stage.style.getPropertyValue(TILT_VAR_Y), '0.00deg');
   assert.equal(world.viewport.classList.contains('is-immersive'), false);
-  assert.equal(world.button.textContent, 'Phone tilt: Off');
+  assert.equal(world.button.textContent, 'Immersion mode: Off');
   assert.equal(world.button.getAttribute('aria-pressed'), 'false');
 });
 
@@ -592,4 +592,10 @@ test('immersion keeps marker targets and the artwork untouched', async () => {
   assert.match(css, /width: 44px/);
   assert.doesNotMatch(html, /immersion[^"]*\.jpg|immersion[^"]*assets\//);
   assert.doesNotMatch(app, /https?:\/\//);
+});
+
+
+test('normal immersion states contain no explanatory copy', () => {
+  assert.equal(IMMERSION_MESSAGES.off, '');
+  assert.equal(IMMERSION_MESSAGES.on, '');
 });
