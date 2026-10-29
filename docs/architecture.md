@@ -290,3 +290,5 @@ fetch by design; the page explains this.
 - There is no offline cache, service worker, routing or account feature.
 
 Zoom perspective: a smoothstep pitch increases from 0 degrees at fit to 8 degrees at 300% zoom, capped above that. Reduced-motion users retain the flat view. Phone motion remains opt-in and adds at most its existing bounded tilt. Perspective distance scales with stage height to limit distortion; marker badges counter-rotate. No terrain elevation is inferred.
+
+Visible copy stays brief: home cards show area names without repeated provenance labels; prices, capacity and original location text remain primary. Position source, uncertainty and detailed comparisons are retained in Placement notes. Global sources are collapsed below the list.

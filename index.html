@@ -6,19 +6,15 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#12100c">
   <title>Aclaria map — housing</title>
-  <meta name="description" content="A mobile-friendly Aclaria world map with the developer's annotated housing positions, approximate catalogue areas and a searchable list of homes from the Grand Homestead Market catalogue.">
+  <meta name="description" content="Aclaria housing map: locations, prices and companion capacity.">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <a class="skip-link" href="#browse">Skip to the home list</a>
 
   <header class="site-header wrap">
-    <p class="site-header__eyebrow">Aclaria RPG companion</p>
     <h1>Aclaria map</h1>
-    <p class="site-header__tagline">
-      Housing layer: 26 numbered discs mark the <strong>developer's annotated housing positions</strong>,
-      with the catalogue's approximate cities and regions kept as context — never house addresses.
-    </p>
+    <p class="site-header__tagline">Homes, prices and companion capacity.</p>
   </header>
 
   <main class="wrap">
@@ -29,10 +25,7 @@
             <h2 id="map-heading">Map</h2>
             <ul class="layer-list" id="layer-list" aria-label="Active map layers"></ul>
           </div>
-          <p class="map-panel__note" id="map-note">
-            Drag or swipe to pan. Scroll the mouse wheel, pinch, double-tap or use <kbd>+</kbd>/<kbd>−</kbd> to zoom.
-            Keyboard: arrows pan, <kbd>+</kbd>/<kbd>−</kbd> zoom, <kbd>0</kbd> resets.
-          </p>
+          <p class="map-panel__note" id="map-note">Drag to pan. Scroll or pinch to zoom. Select a home for details.</p>
         </div>
 
         <div
@@ -49,7 +42,7 @@
               class="map-image"
               id="map-image"
               src="./assets/aclaria-map.jpg"
-              alt="Official Aclaria world map. Overlaid by this page: numbered discs for the developer's annotated housing positions."
+              alt="Aclaria world map with numbered home markers."
               width="4096"
               height="2983"
               decoding="async"
@@ -84,13 +77,7 @@
           </p>
         </div>
 
-        <p class="map-legend">
-          <span class="map-legend__dot" aria-hidden="true">1</span>
-          Solid numbered discs are the developer's annotated housing positions for all 26 catalogue
-          homes, in market order. They are hand-placed annotations with the annotation's own
-          uncertainty — not in-game coordinates or addresses. Catalogue areas stay as searchable
-          context in the list and details; the map draws no second set of numbers and no area rings.
-        </p>
+        <p class="map-legend">Numbers match the housing market order. Positions follow the developer’s map.</p>
 
         <p class="notice" id="data-notice" hidden></p>
         <p class="notice notice--error" id="load-error" hidden></p>
@@ -99,20 +86,13 @@
       <aside class="sidebar" aria-label="Home details and browsing">
         <section class="details" id="details-panel" aria-labelledby="details-heading">
           <h2 id="details-heading" class="sr-only">Selected place details</h2>
-          <p class="details__empty" id="details-empty">
-            Select a numbered marker or a home from the list to see its details, source and uncertainty
-            notes.
-          </p>
+          <p class="details__empty" id="details-empty">Select a home on the map or in the list.</p>
           <div class="details__content" id="details-content" hidden></div>
         </section>
 
         <section class="browse" id="browse" aria-labelledby="browse-heading">
           <h2 id="browse-heading">Homes</h2>
-          <p class="browse__intro">
-            Listed in the catalogue's original market order. Prices, companion capacities and location
-            wording come from the source; marker positions are the developer's annotations and the
-            areas stay approximate.
-          </p>
+          <p class="browse__intro">In market order.</p>
 
           <div class="search-field">
             <label for="search-input">Search homes</label>
@@ -122,7 +102,7 @@
                 type="search"
                 autocomplete="off"
                 spellcheck="false"
-                placeholder="Name, town or catalogue wording"
+                placeholder="Name or location"
               >
               <button type="button" id="search-clear" class="button button--ghost" hidden>Clear</button>
             </div>
@@ -143,33 +123,24 @@
   </main>
 
   <footer class="site-footer wrap">
-    <section aria-labelledby="credits-heading">
-      <h2 id="credits-heading">Credits and sources</h2>
+    <details>
+      <summary id="credits-heading">Sources and map notes</summary>
       <ul>
         <li>
           <a href="https://aclariarpg.fandom.com/wiki/File:Aclaria_world_map.jpg" rel="noopener noreferrer">Official Aclaria world map</a>
-          — map artwork, published unchanged.
+          — artwork.
         </li>
         <li>
           <a href="https://aclariarpg.fandom.com/wiki/Grand_Homestead_Market" rel="noopener noreferrer">Grand Homestead Market catalogue</a>
-          — housing names, prices, companion capacities and location wording.
+          — housing details.
         </li>
         <li>
-          Developer-annotated housing map (2026-10-28) — the 26 marker positions. Published by the
-          Aclaria RPG developer in the official Discord; recorded here as normalized coordinates with
-          the annotation's own uncertainty.
+          Developer’s housing map (28 October 2026) — marker positions.
         </li>
       </ul>
-      <p>
-        Home markers are the developer's hand-placed annotations, not in-game coordinates, addresses or
-        property boundaries. Approximate areas stay as context for the catalogue wording in the list and
-        details; the map draws only the numbered home markers, and where the wording and the annotation
-        name different places, both records remain visible.
-        Aclaria RPG and its artwork belong to their respective creators; no additional license is
-        asserted here.
-      </p>
+      <p>Markers show approximate positions, not property boundaries. Location differences are noted per home. Aclaria RPG and its artwork belong to their respective creators.</p>
       <p class="site-footer__meta">Data revision <span id="data-updated">2026-10-28</span>. Static site, no tracking.</p>
-    </section>
+    </details>
     <noscript>
       <p class="notice">
         This map needs JavaScript for markers, search and zoom. The map image above and these sources

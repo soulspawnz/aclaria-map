@@ -599,7 +599,7 @@ test('house cards and the list carry the marker number, area and discrepancy wor
 
   const home = cards.find((card) => card.dataset.houseId === 'house');
   assert.ok(home.textContent.includes('Marker 1'));
-  assert.ok(home.textContent.includes('Nathorien · developer-annotated position'));
+  assert.ok(home.textContent.includes('Nathorien'));
   assert.equal(home.textContent.toLowerCase().includes('discrepancy'), false);
 
   const hut = cards.find((card) => card.dataset.houseId === 'hut');
@@ -645,7 +645,7 @@ test('building one card is independent of sibling rendering', () => {
   assert.equal(card.dataset.markerNumber, '1');
   assert.match(card.textContent, /Marker 1/);
   assert.match(card.textContent, /Nathorien/);
-  assert.match(card.textContent, /developer-annotated position/);
+  assert.ok(card.textContent.includes(area.name));
 });
 
 

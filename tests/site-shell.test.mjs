@@ -127,18 +127,13 @@ test('the static shell carries the search, filter and no-JavaScript affordances'
   assert.match(html, /id="app-status" role="status" aria-live="polite"/);
 });
 
-test('the shell explains one numbered house-marker layer without inventing placements', () => {
-  assert.ok(html.includes("developer's annotated housing positions"));
-  assert.ok(html.includes('map-legend__dot'), 'the legend shows the house marker layer');
-  assert.equal(html.includes('map-legend__ring'), false, 'no area ring is advertised in the legend');
-  assert.ok(
-    html.includes('the map draws no second set of numbers and no area rings'),
-    'the legend says areas are context only',
-  );
-  assert.ok(html.includes('Developer-annotated housing map (2026-10-28)'), 'credits name the source');
+test('concise map copy retains provenance and placement limits', () => {
+  assert.ok(html.includes('Positions follow the developer’s map.'));
+  assert.ok(html.includes('not property boundaries'));
+  assert.ok(html.includes('Developer’s housing map (28 October 2026)'));
   assert.ok(html.includes('Data revision <span id="data-updated">2026-10-28</span>'));
-  assert.equal(/Unplaced Estates/.test(html), false, 'the old unplaced section is gone');
-  assert.equal(/approximate housing areas and a searchable list/.test(html), false);
+  assert.ok(html.includes('<summary id="credits-heading">Sources and map notes</summary>'));
+  assert.equal(html.includes('catalogue wording'), false);
 });
 
 test('home markers keep their hit target and no area tier is styled', () => {

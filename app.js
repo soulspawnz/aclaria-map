@@ -605,9 +605,8 @@ function unplacedCardText(house, reasons) {
 /** One line for the card: anchor first, catalogue area as context. */
 export function houseCardWhere(house, area, anchor) {
   if (!anchor) return area ? `${area.name} · approximate area` : null;
-  const place = area ? `${area.name} · ` : '';
   const short = textAgreementShort(anchor.textAgreement);
-  return `${place}developer-annotated position${short ? ` · ${short}` : ''}`;
+  return `${area?.name ?? 'On the map'}${short ? ` · ${short}` : ''}`;
 }
 
 export function buildHouseItem(doc, house, area, options = {}) {
@@ -683,7 +682,6 @@ export function renderHouseDetails(doc, container, view) {
       : chip(doc, 'No map marker', 'chip chip--warning');
   chips.append(
     positionChip,
-    sourceChip,
     area
       ? chip(doc, `Area ${area.number}: ${area.name}`)
       : chip(doc, 'No catalogue area', 'chip chip--warning'),
@@ -695,10 +693,11 @@ export function renderHouseDetails(doc, container, view) {
   const facts = element(doc, 'dl', 'facts');
   appendFact(doc, facts, 'Price', formatGold(house.priceGold));
   appendFact(doc, facts, 'Companion capacity', capacityLabel(house.companionCapacity));
+  const placementFacts = element(doc, 'dl', 'facts');
   if (anchor) {
     const uncertainty = annotationUncertaintyText(coordinateSource);
-    if (uncertainty) appendFact(doc, facts, 'Position uncertainty', uncertainty);
-    appendFact(doc, facts, 'Position source', coordinateSourceLabel(coordinateSource));
+    if (uncertainty) appendFact(doc, placementFacts, 'Position uncertainty', uncertainty);
+    appendFact(doc, placementFacts, 'Position source', coordinateSourceLabel(coordinateSource));
   } else if (area) {
     appendFact(
       doc,
@@ -774,7 +773,7 @@ export function renderHouseDetails(doc, container, view) {
   const placementNotes = element(doc, 'details', 'details__placement-notes');
   placementNotes.open = Boolean(anchor && anchor.textAgreement !== 'agrees');
   const placementBody = element(doc, 'div', 'details__placement-notes__body');
-  placementBody.append(...notes, note);
+  placementBody.append(sourceChip, placementFacts, ...notes, note);
   placementNotes.append(
     element(doc, 'summary', 'details__placement-notes__summary', 'Placement notes'),
     placementBody,
